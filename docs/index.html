@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Apex Money — Centro de Mando Financiero Personal. App Android nativa con estética cinematográfica oscura, sincronización en la nube y control absoluto de tus finanzas.">
+  <title>Apex Money — Centro de Mando Financiero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+</head>
+<body>
+
+  <!-- ═══ Navigation ═══ -->
+  <nav class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#" class="nav__logo">◈ APEX <span>MONEY</span></a>
+      <ul class="nav__links">
+        <li><a href="#features" class="nav__link">Características</a></li>
+        <li><a href="#preview" class="nav__link">Preview</a></li>
+        <li><a href="#tech" class="nav__link">Tecnología</a></li>
+        <li><a href="https://github.com/sr-avila-g/Apex-Money/releases" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.8rem;">Descargar APK</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══ Hero ═══ -->
+  <section class="section" style="min-height: 100vh; display: flex; align-items: center; padding-top: 80px;">
+    <div class="hero-glow hero-glow--top"></div>
+    <div class="hero-glow hero-glow--bottom"></div>
+    <div class="container grid-2" style="position: relative; z-index: 1;">
+
+      <!-- Left: Text -->
+      <div class="hero-content reveal">
+        <p class="label" style="margin-bottom: 16px; color: var(--accent-red);">◈ SISTEMA FINANCIERO PERSONAL</p>
+        <h1 class="display-xl" style="margin-bottom: 24px;">
+          APEX<br><span style="color: var(--accent-red);">MONEY</span>
+        </h1>
+        <p class="subtitle" style="margin-bottom: 40px; max-width: 440px;">
+          Centro de mando financiero con estética cinematográfica oscura. Control absoluto de tus finanzas, con o sin internet.
+        </p>
+        <div class="hero-buttons" style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="https://github.com/sr-avila-g/Apex-Money/releases" class="btn btn-primary">
+            ⬇ Descargar APK
+          </a>
+          <a href="https://github.com/sr-avila-g/Apex-Money" class="btn btn-ghost">
+            ◈ Ver Código
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Phone Mockup -->
+      <div class="phone-wrapper flex-center reveal reveal-delay-2">
+        <div class="phone-mockup">
+          <div class="phone-mockup__notch"></div>
+          <div class="phone-mockup__screen">
+            <div class="phone-mockup__carousel">
+
+              <!-- Slide 1: Dashboard -->
+              <div class="phone-mockup__slide" style="background: #0A0A0A;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-primary);">Centro de Mando</span>
+                  <div style="display: flex; gap: 6px; align-items: center;">
+                    <span class="mini-chip" style="background: rgba(76,175,80,0.15); color: var(--income-green);">● 82</span>
+                    <span style="font-size: 0.7rem; opacity: 0.5;">⚙</span>
+                  </div>
+                </div>
+                <div class="mini-card" style="border-color: rgba(255,42,42,0.4); padding: 12px;">
+                  <div class="mini-label">BALANCE DISPONIBLE NETO</div>
+                  <div class="mini-balance">Bs 12,450</div>
+                  <div style="height: 1px; background: rgba(74,21,21,0.4); margin: 8px 0;"></div>
+                  <div style="display: flex; gap: 8px;">
+                    <div style="flex: 1;">
+                      <div class="mini-label">Ingresos</div>
+                      <div class="mini-amount" style="color: var(--income-green);">+Bs 8,200</div>
+                    </div>
+                    <div style="width: 1px; background: rgba(74,21,21,0.4);"></div>
+                    <div style="flex: 1;">
+                      <div class="mini-label">Gastos</div>
+                      <div class="mini-amount" style="color: var(--expense-red);">-Bs 3,750</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+                  <div class="mini-card" style="flex: 1; padding: 8px;">
+                    <div class="mini-label">Presupuesto</div>
+                    <div style="font-size: 0.8rem; font-weight: 700;">67%</div>
+                    <div class="mini-progress"><div class="mini-progress__fill mini-progress__fill--red" style="width: 67%;"></div></div>
+                  </div>
+                  <div class="mini-card" style="flex: 1; padding: 8px;">
+                    <div class="mini-label">Ahorro</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--income-green);">Bs 4,500</div>
+                    <div class="mini-progress"><div class="mini-progress__fill mini-progress__fill--green" style="width: 54%;"></div></div>
+                  </div>
+                </div>
+                <div class="mini-section-title">Transacciones Recientes</div>
+                <div class="mini-card" style="padding: 6px 8px;">
+                  <div class="mini-row">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(76,175,80,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.6rem;">↑</div>
+                      <div><div style="font-size: 0.6rem; font-weight: 600;">Salario</div><div style="font-size: 0.45rem; color: var(--text-secondary);">Hoy, 09:00</div></div>
+                    </div>
+                    <span style="font-size: 0.7rem; font-weight: 700; color: var(--income-green);">+Bs 5,000</span>
+                  </div>
+                </div>
+                <div class="mini-card" style="padding: 6px 8px;">
+                  <div class="mini-row">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(244,67,54,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.6rem;">↓</div>
+                      <div><div style="font-size: 0.6rem; font-weight: 600;">Supermercado</div><div style="font-size: 0.45rem; color: var(--text-secondary);">Ayer, 18:30</div></div>
+                    </div>
+                    <span style="font-size: 0.7rem; font-weight: 700; color: var(--expense-red);">-Bs 340</span>
+                  </div>
+                </div>
+                <!-- Bottom Nav -->
+                <div class="mini-nav">
+                  <div class="mini-nav__item mini-nav__item--active"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                </div>
+              </div>
+
+              <!-- Slide 2: Analytics -->
+              <div class="phone-mockup__slide" style="background: #0A0A0A;">
+                <div class="mini-section-title" style="margin-bottom: 8px;">Analíticas</div>
+                <div class="mini-card" style="border-color: rgba(255,42,42,0.3); padding: 10px;">
+                  <div class="mini-label">CATEGORÍA DE MAYOR GASTO</div>
+                  <div style="font-size: 0.9rem; font-weight: 800; color: var(--expense-red); margin: 4px 0;">Alimentación</div>
+                  <div style="height: 1px; background: rgba(74,21,21,0.4); margin: 6px 0;"></div>
+                  <div style="display: flex; gap: 6px; text-align: center;">
+                    <div style="flex: 1;"><div class="mini-label">Ahorro</div><div style="font-size: 0.75rem; font-weight: 700; color: var(--income-green);">54%</div></div>
+                    <div style="flex: 1;"><div class="mini-label">Gasto</div><div style="font-size: 0.75rem; font-weight: 700; color: var(--accent-blue);">46%</div></div>
+                    <div style="flex: 1;"><div class="mini-label">Salud</div><div style="font-size: 0.75rem; font-weight: 700;">82</div></div>
+                  </div>
+                </div>
+                <div class="mini-section-title" style="margin-top: 10px;">Distribución</div>
+                <div class="mini-card" style="padding: 8px;">
+                  <div class="mini-row"><span style="font-size: 0.55rem;">🔴 Alimentación</span><span style="font-size: 0.6rem; font-weight: 700;">Bs 1,200</span></div>
+                  <div class="mini-progress"><div class="mini-progress__fill" style="width: 45%; background: #E91E63;"></div></div>
+                </div>
+                <div class="mini-card" style="padding: 8px;">
+                  <div class="mini-row"><span style="font-size: 0.55rem;">🔵 Transporte</span><span style="font-size: 0.6rem; font-weight: 700;">Bs 800</span></div>
+                  <div class="mini-progress"><div class="mini-progress__fill" style="width: 30%; background: #2196F3;"></div></div>
+                </div>
+                <div class="mini-card" style="padding: 8px;">
+                  <div class="mini-row"><span style="font-size: 0.55rem;">🟡 Entretenimiento</span><span style="font-size: 0.6rem; font-weight: 700;">Bs 450</span></div>
+                  <div class="mini-progress"><div class="mini-progress__fill" style="width: 18%; background: #FFC107;"></div></div>
+                </div>
+                <div class="mini-card" style="padding: 8px;">
+                  <div class="mini-row"><span style="font-size: 0.55rem;">🟢 Salud</span><span style="font-size: 0.6rem; font-weight: 700;">Bs 350</span></div>
+                  <div class="mini-progress"><div class="mini-progress__fill" style="width: 13%; background: #4CAF50;"></div></div>
+                </div>
+                <div class="mini-card" style="padding: 8px;">
+                  <div class="mini-row"><span style="font-size: 0.55rem;">🟣 Servicios</span><span style="font-size: 0.6rem; font-weight: 700;">Bs 280</span></div>
+                  <div class="mini-progress"><div class="mini-progress__fill" style="width: 10%; background: #9C27B0;"></div></div>
+                </div>
+                <div class="mini-nav">
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item mini-nav__item--active"></div>
+                </div>
+              </div>
+
+              <!-- Slide 3: Vaults -->
+              <div class="phone-mockup__slide" style="background: #0A0A0A;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <span class="mini-section-title" style="margin: 0;">Bóvedas</span>
+                  <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--accent-red); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800;">+</div>
+                </div>
+                <div class="mini-card" style="border-color: rgba(76,175,80,0.4); padding: 10px;">
+                  <div class="mini-label">TOTAL ACUMULADO EN BÓVEDAS</div>
+                  <div style="font-size: 1.2rem; font-weight: 800; color: var(--income-green); margin: 4px 0;">Bs 4,500</div>
+                  <div style="font-size: 0.5rem; color: var(--text-secondary);">Meta Global: Bs 15,000 (30%)</div>
+                  <div class="mini-progress"><div class="mini-progress__fill mini-progress__fill--green" style="width: 30%;"></div></div>
+                </div>
+                <div class="mini-card" style="padding: 10px; margin-top: 8px;">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                    <div class="mini-vault-icon" style="background: rgba(255,42,42,0.15);">🚗</div>
+                    <div>
+                      <div style="font-size: 0.65rem; font-weight: 700;">Auto Nuevo</div>
+                      <div style="font-size: 0.45rem; color: var(--text-secondary);">Vehículo</div>
+                    </div>
+                  </div>
+                  <div class="mini-progress"><div class="mini-progress__fill mini-progress__fill--red" style="width: 35%;"></div></div>
+                  <div class="mini-row" style="margin-top: 4px;"><span style="font-size: 0.5rem; font-weight: 600;">Bs 2,800 de Bs 8,000</span></div>
+                </div>
+                <div class="mini-card" style="padding: 10px;">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                    <div class="mini-vault-icon" style="background: rgba(59,130,246,0.15);">✈️</div>
+                    <div>
+                      <div style="font-size: 0.65rem; font-weight: 700;">Viaje Europa</div>
+                      <div style="font-size: 0.45rem; color: var(--text-secondary);">Vacaciones</div>
+                    </div>
+                  </div>
+                  <div class="mini-progress"><div class="mini-progress__fill mini-progress__fill--blue" style="width: 22%;"></div></div>
+                  <div class="mini-row" style="margin-top: 4px;"><span style="font-size: 0.5rem; font-weight: 600;">Bs 1,100 de Bs 5,000</span></div>
+                </div>
+                <div class="mini-card" style="padding: 10px;">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                    <div class="mini-vault-icon" style="background: rgba(76,175,80,0.15);">🏠</div>
+                    <div>
+                      <div style="font-size: 0.65rem; font-weight: 700;">Fondo Emergencia</div>
+                      <div style="font-size: 0.45rem; color: var(--text-secondary);">Seguridad</div>
+                    </div>
+                  </div>
+                  <div class="mini-progress"><div class="mini-progress__fill mini-progress__fill--green" style="width: 60%;"></div></div>
+                  <div class="mini-row" style="margin-top: 4px;"><span style="font-size: 0.5rem; font-weight: 600;">Bs 600 de Bs 1,000</span></div>
+                </div>
+                <div class="mini-nav">
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item mini-nav__item--active"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- Carousel indicator dots -->
+        <div class="carousel-dots" style="position: absolute; bottom: -40px;">
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container"><div class="divider divider--accent"></div></div>
+
+  <!-- ═══ Features ═══ -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="reveal" style="text-align: center; margin-bottom: 64px;">
+        <p class="label" style="color: var(--accent-red); margin-bottom: 12px;">◈ FUNCIONALIDADES</p>
+        <h2 class="display-lg">Control Total</h2>
+        <p class="subtitle" style="max-width: 500px; margin: 16px auto 0;">Cada herramienta diseñada para darte visibilidad completa sobre tu ecosistema financiero.</p>
+      </div>
+      <div class="grid-3">
+        <div class="obsidian-card reveal reveal-delay-1">
+          <div class="feature-icon">📊</div>
+          <h3 class="heading" style="margin-bottom: 8px;">Dashboard</h3>
+          <p class="subtitle" style="font-size: 0.9rem;">Balance en tiempo real con salud financiera algorítmica e indicadores de consumo por período.</p>
+        </div>
+        <div class="obsidian-card reveal reveal-delay-2">
+          <div class="feature-icon">🔒</div>
+          <h3 class="heading" style="margin-bottom: 8px;">Offline-First</h3>
+          <p class="subtitle" style="font-size: 0.9rem;">Tus datos siempre disponibles en Room DB. Funciona perfectamente con o sin conexión a internet.</p>
+        </div>
+        <div class="obsidian-card reveal reveal-delay-3">
+          <div class="feature-icon feature-icon--blue">☁️</div>
+          <h3 class="heading" style="margin-bottom: 8px;">Sync Inteligente</h3>
+          <p class="subtitle" style="font-size: 0.9rem;">Respaldo automático en Supabase con resolución de conflictos. Tu trabajo offline nunca se pierde.</p>
+        </div>
+        <div class="obsidian-card reveal reveal-delay-1">
+          <div class="feature-icon">💰</div>
+          <h3 class="heading" style="margin-bottom: 8px;">Bóvedas</h3>
+          <p class="subtitle" style="font-size: 0.9rem;">Metas de ahorro personalizadas con progreso visual y trazabilidad completa de aportes.</p>
+        </div>
+        <div class="obsidian-card reveal reveal-delay-2">
+          <div class="feature-icon">📋</div>
+          <h3 class="heading" style="margin-bottom: 8px;">Presupuestos</h3>
+          <p class="subtitle" style="font-size: 0.9rem;">Control de límites por categoría con alertas visuales inteligentes al acercarte al techo.</p>
+        </div>
+        <div class="obsidian-card reveal reveal-delay-3">
+          <div class="feature-icon feature-icon--blue">🔄</div>
+          <h3 class="heading" style="margin-bottom: 8px;">Recurrentes</h3>
+          <p class="subtitle" style="font-size: 0.9rem;">Registro automático de suscripciones con notificaciones de vencimiento y calendario de cargos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- ═══ Preview ═══ -->
+  <section class="section" id="preview">
+    <div class="container">
+      <div class="reveal" style="text-align: center; margin-bottom: 64px;">
+        <p class="label" style="color: var(--accent-red); margin-bottom: 12px;">◈ EXPERIENCIA VISUAL</p>
+        <h2 class="display-lg">Diseñado para la Oscuridad</h2>
+        <p class="subtitle" style="max-width: 560px; margin: 16px auto 0;">Cuatro atmósferas cinematográficas construidas para sesiones de alta concentración. Cada pixel responde a una única temática cohesiva.</p>
+      </div>
+      <div class="grid-2" style="gap: 48px;">
+        <div class="flex-col gap-lg reveal">
+          <div class="obsidian-card" style="border-color: rgba(255,42,42,0.4);">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div style="width: 16px; height: 16px; border-radius: 50%; background: var(--accent-red); box-shadow: 0 0 12px var(--accent-red-glow);"></div>
+              <h3 style="font-size: 1rem; font-weight: 700;">Blood Sun</h3>
+            </div>
+            <p class="subtitle" style="font-size: 0.85rem;">Negro absoluto con acentos rojos. Inspirado en la atmósfera cinematográfica de The Batman.</p>
+          </div>
+          <div class="obsidian-card--blue obsidian-card">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div style="width: 16px; height: 16px; border-radius: 50%; background: var(--accent-blue); box-shadow: 0 0 12px var(--accent-blue-glow);"></div>
+              <h3 style="font-size: 1rem; font-weight: 700;">Ocean Depths</h3>
+            </div>
+            <p class="subtitle" style="font-size: 0.85rem;">Azul marino profundo para inmersión total. Diseñado para largas sesiones de concentración.</p>
+          </div>
+          <div class="obsidian-card" style="background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(10,10,10,0.8)); border-color: rgba(0,255,0,0.15);">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div style="width: 16px; height: 16px; border-radius: 50%; background: #00FF00; box-shadow: 0 0 12px rgba(0,255,0,0.3);"></div>
+              <h3 style="font-size: 1rem; font-weight: 700;">Neon Night</h3>
+            </div>
+            <p class="subtitle" style="font-size: 0.85rem;">AMOLED puro con destellos neón. Negro total para pantallas OLED que ahorran batería.</p>
+          </div>
+          <div class="obsidian-card" style="background: linear-gradient(135deg, rgba(253,251,247,0.05), rgba(243,239,233,0.03)); border-color: rgba(214,186,150,0.2);">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div style="width: 16px; height: 16px; border-radius: 50%; background: #D6BA96; box-shadow: 0 0 12px rgba(214,186,150,0.3);"></div>
+              <h3 style="font-size: 1rem; font-weight: 700;">Soft Day</h3>
+            </div>
+            <p class="subtitle" style="font-size: 0.85rem;">Modo claro minimalista. Tonos cálidos y suaves para uso en exteriores con luz natural.</p>
+          </div>
+        </div>
+        <div class="flex-center reveal reveal-delay-2" style="flex-direction: column;">
+          <div class="phone-mockup" style="box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.6), 0 0 60px var(--accent-red-dim), 0 0 120px rgba(255,42,42,0.08);">
+            <div class="phone-mockup__notch"></div>
+            <div class="phone-mockup__screen">
+              <!-- Static Dashboard view for themes section -->
+              <div style="padding: 12px; background: #0A0A0A; height: 100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <span style="font-size: 0.75rem; font-weight: 700;">Centro de Mando</span>
+                  <span class="mini-chip" style="background: rgba(76,175,80,0.15); color: var(--income-green);">● 82</span>
+                </div>
+                <div class="mini-card" style="border-color: rgba(255,42,42,0.4); padding: 14px;">
+                  <div class="mini-label">BALANCE DISPONIBLE NETO</div>
+                  <div class="mini-balance" style="font-size: 1.8rem;">Bs 12,450</div>
+                  <div style="height: 1px; background: rgba(74,21,21,0.4); margin: 10px 0;"></div>
+                  <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1;"><div class="mini-label">Ingresos</div><div class="mini-amount" style="color: var(--income-green); font-size: 0.9rem;">+Bs 8,200</div></div>
+                    <div style="width: 1px; background: rgba(74,21,21,0.4);"></div>
+                    <div style="flex: 1;"><div class="mini-label">Gastos</div><div class="mini-amount" style="color: var(--expense-red); font-size: 0.9rem;">-Bs 3,750</div></div>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 6px; margin: 10px 0;">
+                  <div class="mini-card" style="flex: 1; padding: 10px;">
+                    <div class="mini-label">Presupuesto</div>
+                    <div style="font-size: 0.9rem; font-weight: 800;">67%</div>
+                    <div class="mini-progress" style="margin-top: 6px;"><div class="mini-progress__fill mini-progress__fill--red" style="width: 67%;"></div></div>
+                  </div>
+                  <div class="mini-card" style="flex: 1; padding: 10px;">
+                    <div class="mini-label">Ahorro</div>
+                    <div style="font-size: 0.9rem; font-weight: 800; color: var(--income-green);">Bs 4,500</div>
+                    <div class="mini-progress" style="margin-top: 6px;"><div class="mini-progress__fill mini-progress__fill--green" style="width: 54%;"></div></div>
+                  </div>
+                </div>
+                <div style="background: linear-gradient(135deg, var(--accent-red), #CC0000); border-radius: 100px; padding: 10px; text-align: center; font-weight: 700; font-size: 0.7rem; margin: 10px 0; box-shadow: 0 4px 16px var(--accent-red-glow);">
+                  + Registro Rápido
+                </div>
+                <div class="mini-section-title">Transacciones</div>
+                <div class="mini-card" style="padding: 6px 8px;">
+                  <div class="mini-row">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(76,175,80,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.55rem;">↑</div>
+                      <div><div style="font-size: 0.6rem; font-weight: 600;">Freelance</div></div>
+                    </div>
+                    <span style="font-size: 0.65rem; font-weight: 700; color: var(--income-green);">+Bs 3,200</span>
+                  </div>
+                </div>
+                <div class="mini-nav">
+                  <div class="mini-nav__item mini-nav__item--active"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                  <div class="mini-nav__item"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider divider--accent"></div></div>
+
+  <!-- ═══ Sync Engine ═══ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal" style="text-align: center; margin-bottom: 64px;">
+        <p class="label" style="color: var(--accent-blue); margin-bottom: 12px;">◈ MOTOR DE SINCRONIZACIÓN</p>
+        <h2 class="display-lg">Offline-First con Armadura</h2>
+        <p class="subtitle" style="max-width: 520px; margin: 16px auto 0;">Room como fuente de verdad. Supabase como respaldo blindado. Resolución de conflictos automática.</p>
+      </div>
+      <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+        <div class="obsidian-card--blue obsidian-card reveal reveal-delay-1" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 12px;">📱</div>
+          <h4 style="font-weight: 700; margin-bottom: 4px;">Push</h4>
+          <p style="font-size: 0.8rem; color: var(--text-secondary);">Cambios locales → Supabase</p>
+        </div>
+        <div class="obsidian-card--blue obsidian-card reveal reveal-delay-2" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 12px;">☁️</div>
+          <h4 style="font-weight: 700; margin-bottom: 4px;">Pull</h4>
+          <p style="font-size: 0.8rem; color: var(--text-secondary);">Remotos comparados vs local</p>
+        </div>
+        <div class="obsidian-card--blue obsidian-card reveal reveal-delay-3" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 12px;">⚔️</div>
+          <h4 style="font-weight: 700; margin-bottom: 4px;">Conflicto</h4>
+          <p style="font-size: 0.8rem; color: var(--text-secondary);">Gana el dato más reciente</p>
+        </div>
+        <div class="obsidian-card--blue obsidian-card reveal reveal-delay-4" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 12px;">🗑️</div>
+          <h4 style="font-weight: 700; margin-bottom: 4px;">Purga</h4>
+          <p style="font-size: 0.8rem; color: var(--text-secondary);">30 días, solo si sincronizado</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- ═══ Tech Stack ═══ -->
+  <section class="section" id="tech">
+    <div class="container">
+      <div class="reveal" style="text-align: center; margin-bottom: 48px;">
+        <p class="label" style="color: var(--accent-red); margin-bottom: 12px;">◈ STACK TECNOLÓGICO</p>
+        <h2 class="display-lg">Construido con Precisión</h2>
+      </div>
+      <div class="reveal flex-center" style="flex-wrap: wrap; gap: 12px; justify-content: center;">
+        <span class="tech-badge">🟣 Kotlin 2.0</span>
+        <span class="tech-badge">🎨 Jetpack Compose</span>
+        <span class="tech-badge">🎭 Material Design 3</span>
+        <span class="tech-badge">🗄️ Room (SQLite)</span>
+        <span class="tech-badge">☁️ Supabase</span>
+        <span class="tech-badge">⚙️ WorkManager</span>
+        <span class="tech-badge">📦 DataStore</span>
+        <span class="tech-badge">🔐 BiometricPrompt</span>
+        <span class="tech-badge">🔔 NotificationManager</span>
+        <span class="tech-badge">🏗️ Gradle + KSP</span>
+        <span class="tech-badge">📐 Navigation Compose</span>
+        <span class="tech-badge">🧩 MVVM Architecture</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider divider--accent"></div></div>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="section">
+    <div class="container reveal" style="text-align: center;">
+      <h2 class="display-lg" style="margin-bottom: 16px;">Toma el Control</h2>
+      <p class="subtitle" style="max-width: 480px; margin: 0 auto 40px;">Descarga Apex Money y transforma la manera en que gestionas tu dinero. Sin anuncios. Sin suscripciones. Sin compromisos.</p>
+      <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+        <a href="https://github.com/sr-avila-g/Apex-Money/releases" class="btn btn-primary" style="padding: 16px 40px; font-size: 1rem;">
+          ⬇ Descargar APK v1.0
+        </a>
+        <a href="https://github.com/sr-avila-g/Apex-Money" class="btn btn-ghost" style="padding: 16px 40px; font-size: 1rem;">
+          ◈ Repositorio en GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__line"></div>
+      <p class="footer__brand">◈ Sr. Avila</p>
+      <p class="footer__sub">Ingeniería de Software · Sistemas de Control Personal</p>
+      <div class="footer__line"></div>
+      <br>
+      <p class="footer__quote">"El que tiene un porqué para vivir, puede soportar casi cualquier cómo."</p>
+      <p class="footer__author">— Friedrich Nietzsche</p>
+      <div class="footer__line"></div>
+      <p class="footer__copy">Desarrollado con disciplina, propósito y obsesión por el detalle.<br>© 2026 Sr. Avila · Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
