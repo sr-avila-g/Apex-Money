@@ -286,7 +286,17 @@ git clone https://github.com/sr-avila-g/Apex-Money.git
 cd Apex-Money
 ```
 
-### 2 · Configurar Supabase
+### 2 · Configurar Supabase (Trae tu propio Backend)
+
+> **Opcional:** Apex Money es *Local-First*. Tus datos nunca salen del dispositivo a menos que tú lo decidas. 
+> Si deseas sincronización en la nube, puedes levantar tu propia instancia gratuita en [Supabase](https://supabase.com).
+> 
+> 1. Crea un proyecto en Supabase.
+> 2. Ejecuta el script SQL (ver abajo) en el SQL Editor.
+> 3. En la app (dentro de tu celular), ve a **Ajustes > Nube y Sincronización > Configurar Backend Propio**.
+> 4. Pega tu `SUPABASE_URL` y tu `ANON_KEY`.
+
+*(Si eres desarrollador y compilas tu propio APK, puedes quemar las variables en `local.properties`):*
 ```bash
 echo "SUPABASE_URL=https://tu-proyecto.supabase.co" >> local.properties
 echo "SUPABASE_ANON_KEY=tu-clave-anonima" >> local.properties

@@ -24,7 +24,10 @@ data class UserPreferences(
     val isRoundUpEnabled: Boolean,
     val isStrictBudget: Boolean,
     val isAutoReversalEnabled: Boolean,
-    val lastSyncTimestamp: String
+    val lastSyncTimestamp: String,
+    val isCloudSyncEnabled: Boolean,
+    val customSupabaseUrl: String,
+    val customSupabaseKey: String
 )
 
 class UserPreferencesRepository(private val context: Context) {
@@ -40,6 +43,9 @@ class UserPreferencesRepository(private val context: Context) {
         val STRICT_BUDGET = booleanPreferencesKey("strict_budget")
         val AUTO_REVERSAL = booleanPreferencesKey("auto_reversal")
         val LAST_SYNC = stringPreferencesKey("last_sync")
+        val CLOUD_SYNC_ENABLED = booleanPreferencesKey("cloud_sync_enabled")
+        val CUSTOM_SUPABASE_URL = stringPreferencesKey("custom_supabase_url")
+        val CUSTOM_SUPABASE_KEY = stringPreferencesKey("custom_supabase_key")
     }
 
     val userPreferencesFlow: Flow<UserPreferences> = context.dataStore.data
@@ -60,7 +66,10 @@ class UserPreferencesRepository(private val context: Context) {
                 isRoundUpEnabled = preferences[PreferencesKeys.ROUND_UP_ENABLED] ?: false,
                 isStrictBudget = preferences[PreferencesKeys.STRICT_BUDGET] ?: false,
                 isAutoReversalEnabled = preferences[PreferencesKeys.AUTO_REVERSAL] ?: true,
-                lastSyncTimestamp = preferences[PreferencesKeys.LAST_SYNC] ?: "1970-01-01T00:00:00Z"
+                lastSyncTimestamp = preferences[PreferencesKeys.LAST_SYNC] ?: "1970-01-01T00:00:00Z",
+                isCloudSyncEnabled = preferences[PreferencesKeys.CLOUD_SYNC_ENABLED] ?: false,
+                customSupabaseUrl = preferences[PreferencesKeys.CUSTOM_SUPABASE_URL] ?: "",
+                customSupabaseKey = preferences[PreferencesKeys.CUSTOM_SUPABASE_KEY] ?: ""
             )
         }
 
@@ -86,6 +95,7 @@ class UserPreferencesRepository(private val context: Context) {
                 "round_up" -> preferences[PreferencesKeys.ROUND_UP_ENABLED] = value
                 "strict_budget" -> preferences[PreferencesKeys.STRICT_BUDGET] = value
                 "auto_reversal" -> preferences[PreferencesKeys.AUTO_REVERSAL] = value
+                "cloud_sync" -> preferences[PreferencesKeys.CLOUD_SYNC_ENABLED] = value
             }
         }
     }
@@ -93,6 +103,13 @@ class UserPreferencesRepository(private val context: Context) {
     suspend fun updateLastSync(timestamp: String) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.LAST_SYNC] = timestamp
+        }
+    }
+
+    suspend fun updateSupabaseCredentials(url: String, key: String) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.CUSTOM_SUPABASE_URL] = url
+            preferences[PreferencesKeys.CUSTOM_SUPABASE_KEY] = key
         }
     }
 }

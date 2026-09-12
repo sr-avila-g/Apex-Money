@@ -17,6 +17,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +43,9 @@ fun SettingsScreen(
     val activeTheme = userPrefs?.themeMode ?: ThemeMode.AMOLED
     val activeCurrencyCode = userPrefs?.currencyCode ?: "USD"
     val activeCurrencySymbol = userPrefs?.currencySymbol ?: "$"
+    
+    val isCloudSyncEnabled = userPrefs?.isCloudSyncEnabled ?: false
+    var showSupabaseDialog by remember { mutableStateOf(false) }
 
     val currencies = listOf(
         Pair("$", "USD"),
@@ -233,29 +238,58 @@ fun SettingsScreen(
                 ObsidianCard(modifier = Modifier.fillMaxWidth()) {
                     val context = androidx.compose.ui.platform.LocalContext.current
                     
-                    val rawDate = userPrefs?.lastSyncTimestamp ?: "1970-01-01T00:00:00Z"
-                    val lastSyncText = if (rawDate.startsWith("1970")) {
-                        "Nunca"
-                    } else {
-                        try {
-                            val instant = java.time.Instant.parse(rawDate)
-                            val local = java.time.LocalDateTime.ofInstant(instant, java.time.ZoneId.systemDefault())
-                            val formatter = java.time.format.DateTimeFormatter.ofPattern("dd MMM, HH:mm")
-                            local.format(formatter)
-                        } catch(e: Exception) {
-                            "Desconocida"
-                        }
-                    }
-
-                    ActionRow(
-                        title = "Sincronizar Ahora (Supabase)",
-                        subtitle = "Última sincronización: $lastSyncText",
-                        icon = androidx.compose.material.icons.Icons.Outlined.Sync,
-                        onClick = { 
-                            com.sravila.apexmoney.core.network.SyncManager.triggerManualSync(context)
-                            android.widget.Toast.makeText(context, "Sincronización iniciada en segundo plano...", android.widget.Toast.LENGTH_SHORT).show()
-                        }
+                    SettingToggleRow(
+                        title = "Habilitar Nube (Supabase)",
+                        subtitle = "Sincroniza tus datos de forma privada",
+                        icon = Icons.Outlined.CloudSync,
+                        isChecked = isCloudSyncEnabled,
+                        onCheckedChange = { viewModel.togglePreference("cloud_sync", isCloudSyncEnabled) }
                     )
+
+                    if (isCloudSyncEnabled) {
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+                        
+                        ActionRow(
+                            title = "Configurar Backend Propio",
+                            subtitle = "URL y Key de Supabase",
+                            icon = Icons.Outlined.Dns,
+                            onClick = { showSupabaseDialog = true }
+                        )
+
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+                        
+                        val rawDate = userPrefs?.lastSyncTimestamp ?: "1970-01-01T00:00:00Z"
+                        val lastSyncText = if (rawDate.startsWith("1970")) {
+                            "Nunca"
+                        } else {
+                            try {
+                                val instant = java.time.Instant.parse(rawDate)
+                                val local = java.time.LocalDateTime.ofInstant(instant, java.time.ZoneId.systemDefault())
+                                val formatter = java.time.format.DateTimeFormatter.ofPattern("dd MMM, HH:mm")
+                                local.format(formatter)
+                            } catch(e: Exception) {
+                                "Desconocida"
+                            }
+                        }
+
+                        ActionRow(
+                            title = "Sincronizar Ahora",
+                            subtitle = "Última sincronización: $lastSyncText",
+                            icon = Icons.Outlined.Sync,
+                            onClick = { 
+                                com.sravila.apexmoney.core.network.SyncManager.triggerManualSync(context)
+                                android.widget.Toast.makeText(context, "Sincronización iniciada en segundo plano...", android.widget.Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                    } else {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Modo Local estricto activado. Tus datos no abandonarán este dispositivo.",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                        )
+                    }
                 }
             }
 
@@ -420,6 +454,46 @@ fun SettingsScreen(
                 }
             }
         }
+    }
+
+    if (showSupabaseDialog) {
+        var inputUrl by remember { mutableStateOf(userPrefs?.customSupabaseUrl ?: "") }
+        var inputKey by remember { mutableStateOf(userPrefs?.customSupabaseKey ?: "") }
+
+        AlertDialog(
+            onDismissRequest = { showSupabaseDialog = false },
+            title = { Text("Configurar Supabase", fontWeight = FontWeight.Bold) },
+            text = {
+                Column {
+                    Text("Ingresa las credenciales de tu proyecto Supabase personal. Si las dejas en blanco, la sincronización usará las credenciales por defecto (si existen).", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OutlinedTextField(
+                        value = inputUrl,
+                        onValueChange = { inputUrl = it },
+                        label = { Text("Supabase URL") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = inputKey,
+                        onValueChange = { inputKey = it },
+                        label = { Text("Anon Key") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.updateSupabaseCredentials(inputUrl.trim(), inputKey.trim())
+                    showSupabaseDialog = false
+                }) { Text("Guardar") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showSupabaseDialog = false }) { Text("Cancelar") }
+            }
+        )
     }
 }
 

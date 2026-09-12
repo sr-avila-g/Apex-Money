@@ -63,6 +63,12 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun updateSupabaseCredentials(url: String, key: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            prefsRepository.updateSupabaseCredentials(url, key)
+        }
+    }
+
     fun wipeData(onResult: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -78,13 +84,21 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 // Delete from Supabase
-                val client = com.sravila.apexmoney.core.network.SupabaseApi.client
-                val postgrest = client.postgrest
+                val prefs = _userPreferences.value
+                val isCloudEnabled = prefs?.isCloudSyncEnabled ?: false
                 
-                postgrest["transactions"].delete { filter { eq("is_deleted", true) } }
-                postgrest["budgets"].delete { filter { eq("is_deleted", true) } }
-                postgrest["savings_vaults"].delete { filter { eq("is_deleted", true) } }
-                postgrest["recurring_payments"].delete { filter { eq("is_deleted", true) } }
+                if (isCloudEnabled) {
+                    val client = com.sravila.apexmoney.core.network.SupabaseApi.getClient(
+                        prefs?.customSupabaseUrl ?: "",
+                        prefs?.customSupabaseKey ?: ""
+                    )
+                    val postgrest = client.postgrest
+                    
+                    postgrest["transactions"].delete { filter { eq("is_deleted", true) } }
+                    postgrest["budgets"].delete { filter { eq("is_deleted", true) } }
+                    postgrest["savings_vaults"].delete { filter { eq("is_deleted", true) } }
+                    postgrest["recurring_payments"].delete { filter { eq("is_deleted", true) } }
+                }
 
                 // Delete from local
                 val db = com.sravila.apexmoney.core.database.ApexMoneyDatabase.getDatabase(getApplication())
@@ -111,7 +125,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 }
                 
                 val downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
-                val file = java.io.File(downloadsDir, "organizer_backup_${System.currentTimeMillis()}.csv")
+                val file = java.io.File(downloadsDir, "apexmoney_backup_${System.currentTimeMillis()}.csv")
                 file.writeText(csvHeader + csvData)
                 
                 launch(Dispatchers.Main) {
@@ -129,7 +143,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
-                val files = downloadsDir.listFiles { _, name -> name.startsWith("organizer_backup_") && name.endsWith(".csv") }
+                val files = downloadsDir.listFiles { _, name -> name.startsWith("apexmoney_backup_") && name.endsWith(".csv") }
                 if (files.isNullOrEmpty()) {
                     launch(Dispatchers.Main) { android.widget.Toast.makeText(context, "No se encontraron backups", android.widget.Toast.LENGTH_SHORT).show() }
                     return@launch

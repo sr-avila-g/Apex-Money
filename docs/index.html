@@ -448,6 +448,97 @@
 
   <div class="container"><div class="divider divider--accent"></div></div>
 
+  <!-- ═══ BYO Backend ═══ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal" style="text-align: center; margin-bottom: 48px;">
+        <p class="label" style="color: var(--accent-blue); margin-bottom: 12px;">◈ NUBE OPCIONAL</p>
+        <h2 class="display-lg">Trae tu propio Backend</h2>
+        <p class="subtitle" style="max-width: 520px; margin: 16px auto 0;">Apex Money es Local-First. Si quieres sincronizar, puedes conectar tu propia base de datos gratuita de Supabase para máxima privacidad.</p>
+      </div>
+      
+      <div class="obsidian-card reveal" style="max-width: 800px; margin: 0 auto;">
+        <h3 class="heading" style="margin-bottom: 16px; font-size: 1.2rem;">Pasos de Configuración:</h3>
+        <ol style="margin-left: 20px; color: var(--text-secondary); margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;">Crea un proyecto gratuito en <a href="https://supabase.com" style="color: var(--accent-blue);">Supabase</a>.</li>
+          <li style="margin-bottom: 8px;">Copia y pega el siguiente código en el <strong>SQL Editor</strong> de Supabase y ejecútalo.</li>
+          <li style="margin-bottom: 8px;">En la app, ve a <em>Ajustes > Nube y Sincronización > Configurar Backend Propio</em>.</li>
+          <li style="margin-bottom: 8px;">Ingresa tu <strong>URL</strong> y <strong>Anon Key</strong>. ¡Listo!</li>
+        </ol>
+
+        <h3 class="heading" style="margin-bottom: 12px; font-size: 1rem;">Código SQL (Esquema de BD):</h3>
+        <div style="background: rgba(0,0,0,0.5); padding: 16px; border-radius: 8px; border: 1px solid var(--outline); overflow-x: auto;">
+<pre style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #a8b2d1;">
+-- Transacciones
+CREATE TABLE transactions (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL DEFAULT 'LOCAL_USER',
+    type TEXT NOT NULL,
+    amount REAL NOT NULL,
+    category TEXT NOT NULL,
+    description TEXT,
+    date TEXT NOT NULL,
+    updated_at TEXT NOT NULL DEFAULT now()::text,
+    is_deleted BOOLEAN NOT NULL DEFAULT false
+);
+
+-- Presupuestos
+CREATE TABLE budgets (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL DEFAULT 'LOCAL_USER',
+    category TEXT NOT NULL,
+    monthly_limit REAL NOT NULL,
+    current_spent REAL NOT NULL DEFAULT 0,
+    period TEXT NOT NULL,
+    updated_at TEXT NOT NULL DEFAULT now()::text,
+    is_deleted BOOLEAN NOT NULL DEFAULT false
+);
+
+-- Bóvedas de Ahorro
+CREATE TABLE savings_vaults (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL DEFAULT 'LOCAL_USER',
+    name TEXT NOT NULL,
+    target_amount REAL NOT NULL,
+    current_amount REAL NOT NULL DEFAULT 0,
+    icon TEXT,
+    color TEXT,
+    updated_at TEXT NOT NULL DEFAULT now()::text,
+    is_deleted BOOLEAN NOT NULL DEFAULT false
+);
+
+-- Pagos Recurrentes
+CREATE TABLE recurring_payments (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL DEFAULT 'LOCAL_USER',
+    name TEXT NOT NULL,
+    amount REAL NOT NULL,
+    category TEXT NOT NULL,
+    frequency TEXT NOT NULL,
+    next_payment_date TEXT NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    updated_at TEXT NOT NULL DEFAULT now()::text,
+    is_deleted BOOLEAN NOT NULL DEFAULT false
+);
+
+-- Políticas (RLS)
+ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE budgets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE savings_vaults ENABLE ROW LEVEL SECURITY;
+ALTER TABLE recurring_payments ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow all" ON transactions FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all" ON budgets FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all" ON savings_vaults FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all" ON recurring_payments FOR ALL USING (true) WITH CHECK (true);
+</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider divider--accent"></div></div>
+
   <!-- ═══ CTA ═══ -->
   <section class="section">
     <div class="container reveal" style="text-align: center;">
