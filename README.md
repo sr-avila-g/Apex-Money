@@ -1,218 +1,323 @@
-<![CDATA[<div align="center">
+<div align="center">
 
-# 💰 APEX MONEY
+<br>
 
-### *Centro de Mando Financiero Personal*
+<img src="https://img.shields.io/badge/%E2%96%B2-APEX-000000?style=for-the-badge&labelColor=000000" alt="Apex">
 
-![Android](https://img.shields.io/badge/Android-26+-3DDC84?style=for-the-badge&logo=android&logoColor=white)
-![Kotlin](https://img.shields.io/badge/Kotlin-2.0-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
-![Jetpack Compose](https://img.shields.io/badge/Jetpack_Compose-BOM_2024-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-Sync-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)
-![License](https://img.shields.io/badge/Licencia-Privada-E53935?style=for-the-badge)
+# ◈ APEX MONEY ◈
+
+**`C E N T R O · D E · M A N D O · F I N A N C I E R O`**
+
+<br>
+
+[![Android](https://img.shields.io/badge/Android_8.0+-3DDC84?style=flat-square&logo=android&logoColor=white)](https://developer.android.com)
+[![Kotlin](https://img.shields.io/badge/Kotlin_2.0-7F52FF?style=flat-square&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Compose](https://img.shields.io/badge/Jetpack_Compose-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
+[![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com)
+[![Room](https://img.shields.io/badge/Room_DB-FF6F00?style=flat-square&logo=sqlite&logoColor=white)](https://developer.android.com/training/data-storage/room)
+[![License](https://img.shields.io/badge/Privado-E53935?style=flat-square)](/)
+
+<br>
+
+*Una aplicación Android nativa diseñada como un sistema operativo financiero personal,*
+*con una estética cinematográfica oscura inspirada en atmósferas de alta concentración.*
+
+<br>
 
 ---
-
-*Una aplicación Android nativa diseñada como un centro de control financiero personal,*  
-*con una estética cinematográfica oscura inspirada en atmósferas de alta concentración.*
 
 </div>
 
+<br>
+
+## ◈ Visión
+
+> Apex Money no es una app de finanzas genérica.
+> Es un **ecosistema de comando personal** construido desde cero con Kotlin y Jetpack Compose,
+> diseñado para quienes ven la gestión del dinero como un acto de disciplina estratégica.
+
+Cada pantalla, cada transición, cada decisión de diseño responde a un único principio:
+
+```
+C O N T R O L   A B S O L U T O   S I N   R U I D O   V I S U A L
+```
+
+<br>
+
 ---
 
-## 🎯 Visión
+<br>
 
-Apex Money no es una app de finanzas genérica. Es un **ecosistema de comando personal** construido desde cero con Kotlin y Jetpack Compose, diseñado para quienes ven la gestión del dinero como un acto de disciplina estratégica, no como una tarea doméstica.
+## ◈ Funcionalidades
 
-Cada pantalla, cada transición, cada decisión de diseño responde a un único principio:  
-**Control absoluto sin ruido visual.**
+<table>
+<tr>
+<td width="50%">
 
----
+### 📊 Dashboard
+> Visión general en tiempo real
 
-## ✨ Funcionalidades
-
-### 📊 Dashboard — Visión General
-- Balance total con animaciones en tiempo real
+- Balance animado con salud financiera algorítmica
 - Resumen de ingresos y gastos del período
-- Indicador de salud financiera calculado algorítmicamente
-- Modo Discreto con un toque (oculta montos sensibles)
+- Modo Discreto con un toque *(oculta montos)*
 
-### 💸 Transacciones — Registro Rápido
-- Entrada rápida mediante Bottom Sheet flotante
-- Categorización automática por tipo (Ingreso / Gasto)
-- Historial completo con búsqueda y filtrado
+</td>
+<td width="50%">
 
-### 📈 Analíticas — Inteligencia Financiera
+### 💸 Transacciones
+> Registro rápido e inteligente
+
+- Entrada mediante Bottom Sheet flotante
+- Categorización por tipo (Ingreso / Gasto)
+- Historial completo con búsqueda
+
+</td>
+</tr>
+<tr>
+<td>
+
+### 📈 Analíticas
+> Inteligencia financiera visual
+
 - Gráficos de distribución por categoría
 - Tendencias de gasto mensual
-- Métricas comparativas período a período
+- Comparativas período a período
 
-### 💰 Bóvedas — Ahorro con Propósito
-- Bóvedas de ahorro con metas individuales
+</td>
+<td>
+
+### 💰 Bóvedas
+> Ahorro con propósito
+
+- Bóvedas con metas individuales
 - Barra de progreso visual por bóveda
-- Depósitos y retiros con trazabilidad completa
+- Depósitos y retiros con trazabilidad
 
-### 📋 Presupuestos — Control de Límites
-- Presupuestos por categoría con alertas visuales
+</td>
+</tr>
+<tr>
+<td>
+
+### 📋 Presupuestos
+> Control de límites
+
+- Presupuestos por categoría con alertas
 - Seguimiento de consumo en tiempo real
-- Indicadores de alerta cuando te acercas al límite
+- Indicadores al acercarte al límite
 
-### 🔄 Pagos Recurrentes — Automatización
-- Registro de pagos periódicos (suscripciones, servicios)
-- Notificaciones inteligentes de vencimiento
+</td>
+<td>
+
+### 🔄 Recurrentes
+> Automatización de pagos
+
+- Registro de suscripciones y servicios
+- Notificaciones de vencimiento
 - Calendario de próximos cargos
 
-### ⚙️ Ajustes — Centro de Configuración
-- 4 temas visuales cinematográficos
-- Modo Discreto global
-- Autenticación biométrica
-- Exportar / Importar datos (CSV)
-- Sincronización manual con Supabase
-- Papelera de Reciclaje con purga automática de 30 días
-- Borrado seguro de datos
+</td>
+</tr>
+</table>
+
+<br>
+
+### ⚙️ Centro de Configuración
+
+<div align="center">
+
+`4 Temas Cinematográficos` · `Modo Discreto` · `Biometría` · `Export/Import CSV` · `Sync Manual` · `Papelera 30 días` · `Borrado Seguro`
+
+</div>
+
+<br>
 
 ---
 
-## 🏗️ Arquitectura
+<br>
+
+## ◈ Arquitectura
 
 ```
 com.sravila.apexmoney/
 │
-├── core/                          # Infraestructura compartida
-│   ├── database/                  # Room: Entities, DAOs, Database
-│   ├── datastore/                 # DataStore: Preferencias del usuario
-│   ├── network/                   # Supabase: Client, SyncWorker, Models
-│   ├── theme/                     # Material3: Colores, Tipografía, Temas
-│   ├── ui/                        # Componentes reutilizables (ObsidianCard, etc.)
-│   └── utils/                     # Formateo de moneda, Calculador de salud
+├─ core/                             ── Infraestructura ──
+│   ├─ database/                     Room: Entities, DAOs, Database
+│   ├─ datastore/                    DataStore: Preferencias
+│   ├─ network/                      Supabase: Client, SyncWorker, Models
+│   ├─ theme/                        Material3: Colores, Tipografía, Temas
+│   ├─ ui/                           Componentes (ObsidianCard, ApexButton...)
+│   └─ utils/                        Formateo, Calculador de Salud
 │
-├── features/                      # Módulos de funcionalidad
-│   ├── dashboard/                 # Pantalla principal + ViewModel
-│   ├── analytics/                 # Gráficos y métricas + ViewModel
-│   ├── budgets/                   # Presupuestos + ViewModel
-│   ├── vaults/                    # Bóvedas de ahorro + ViewModel
-│   ├── recurring/                 # Pagos recurrentes + ViewModel + Worker
-│   ├── quickentry/                # Bottom Sheets de entrada rápida
-│   └── settings/                  # Configuración + ViewModel
+├─ features/                         ── Módulos ──
+│   ├─ dashboard/                    Pantalla principal + ViewModel
+│   ├─ analytics/                    Gráficos y métricas + ViewModel
+│   ├─ budgets/                      Presupuestos + ViewModel
+│   ├─ vaults/                       Bóvedas de ahorro + ViewModel
+│   ├─ recurring/                    Pagos recurrentes + Worker
+│   ├─ quickentry/                   Bottom Sheets de entrada
+│   └─ settings/                     Configuración + ViewModel
 │
-├── ui/                            # Capa de presentación global
-│   ├── navigation/                # Barra de navegación inferior
-│   └── splash/                    # Pantalla de inicio animada
+├─ ui/                               ── Presentación ──
+│   ├─ navigation/                   Barra inferior
+│   └─ splash/                       Pantalla animada
 │
-└── MainActivity.kt                # Punto de entrada + NavHost
+└─ MainActivity.kt                   Punto de entrada + NavHost
 ```
 
-**Patrón:** MVVM (Model-View-ViewModel) con flujo unidireccional de datos.  
-**Principio:** Offline-First — Room como fuente de verdad, Supabase como respaldo en la nube.
+<div align="center">
+
+**Patrón** · MVVM con flujo unidireccional &nbsp;&nbsp;│&nbsp;&nbsp; **Principio** · Offline-First (Room → Supabase)
+
+</div>
+
+<br>
 
 ---
 
-## 🔄 Motor de Sincronización
+<br>
 
-Apex Money implementa un motor de sincronización **Offline-First** con resolución de conflictos:
+## ◈ Motor de Sincronización
+
+<div align="center">
+
+```
+╔══════════╗     ╔══════════╗     ╔══════════════╗     ╔══════════╗
+║   PUSH   ║ ──▶ ║   PULL   ║ ──▶ ║  CONFLICTO   ║ ──▶ ║  PURGA   ║
+║ Local→☁️  ║     ║ ☁️→Local  ║     ║ Gana +nuevo  ║     ║ 30 días  ║
+╚══════════╝     ╚══════════╝     ╚══════════════╝     ╚══════════╝
+```
+
+</div>
 
 | Fase | Descripción |
-|---|---|
-| **Push** | Los cambios locales (nuevos, editados, eliminados) se envían a Supabase |
-| **Pull** | Los cambios remotos se descargan y se comparan contra la versión local |
-| **Conflicto** | Gana la versión con `updatedAt` más reciente — los cambios offline del usuario nunca se sobreescriben |
-| **Purga** | Registros eliminados hace más de 30 días se destruyen permanentemente solo si ya fueron sincronizados |
+|:---:|---|
+| **Push** | Cambios locales (nuevos, editados, eliminados) → Supabase |
+| **Pull** | Cambios remotos se descargan y comparan contra versión local |
+| **Conflicto** | Gana `updatedAt` más reciente — cambios offline nunca se sobreescriben |
+| **Purga** | Registros +30 días se destruyen **solo** si ya fueron sincronizados |
 
-El motor utiliza `WorkManager` con restricciones de red para ejecutarse periódicamente sin consumir batería innecesariamente.
+> Motor ejecutado vía `WorkManager` con restricciones de red. Cero consumo de batería sin conexión.
 
----
-
-## 🛢️ Base de Datos
-
-### Local (Room)
-4 entidades principales con soft-delete y timestamps de auditoría:
-
-| Tabla | Descripción |
-|---|---|
-| `transactions` | Ingresos y gastos |
-| `budgets` | Presupuestos por categoría |
-| `savings_vaults` | Bóvedas de ahorro con meta |
-| `recurring_payments` | Pagos periódicos |
-
-### Nube (Supabase / PostgreSQL)
-Espejo exacto de la estructura local con Row Level Security habilitado.
+<br>
 
 ---
 
-## 🎨 Sistema de Diseño
+<br>
 
-El sistema visual se construye sobre componentes propios del ecosistema **Command Center**:
+## ◈ Sistema de Diseño
 
-| Componente | Uso |
-|---|---|
-| `ObsidianCard` | Contenedor principal con glassmorphism oscuro |
-| `ApexButton` | Botón primario con gradiente y animación |
-| `MoneyDisplay` | Renderizado de montos con formato inteligente |
-| `ProgressBarModular` | Barra de progreso temática |
-| `SegmentedControl` | Selector de períodos |
-| `AnimatedSplashScreen` | Pantalla de inicio con transiciones cinemáticas |
+<table>
+<tr>
+<td align="center" width="25%">
+<h4>🔴 Blood Sun</h4>
+<sub>The Batman</sub><br>
+<sub>Negro absoluto · Acentos rojos</sub>
+</td>
+<td align="center" width="25%">
+<h4>🔵 Ocean Depths</h4>
+<sub>Azul Marino</sub><br>
+<sub>Profundidad · Concentración</sub>
+</td>
+<td align="center" width="25%">
+<h4>⚫ Neon Night</h4>
+<sub>AMOLED Puro</sub><br>
+<sub>Negro total · Acentos neón</sub>
+</td>
+<td align="center" width="25%">
+<h4>🌅 Soft Day</h4>
+<sub>Minimalista</sub><br>
+<sub>Claro · Exteriores</sub>
+</td>
+</tr>
+</table>
 
-### Temas Disponibles
+<br>
 
-| Tema | Inspiración |
-|---|---|
-| 🔴 **Blood Sun** | The Batman — negro absoluto con acentos rojos |
-| 🔵 **Ocean Depths** | Azul marino profundo para sesiones de concentración |
-| ⚫ **Neon Night** | AMOLED puro con acentos neón |
-| 🌅 **Soft Day** | Modo claro minimalista para exteriores |
+### Componentes del Ecosistema Command Center
 
----
-
-## 🛠️ Stack Tecnológico
-
-| Capa | Tecnología |
-|---|---|
-| Lenguaje | Kotlin 2.0 |
-| UI | Jetpack Compose + Material Design 3 |
-| Navegación | Navigation Compose |
-| Base de datos local | Room (SQLite) |
-| Preferencias | DataStore (Proto) |
-| Sincronización en la nube | Supabase (PostgreSQL + REST) |
-| Tareas en segundo plano | WorkManager |
-| Notificaciones | NotificationManager + AlarmManager |
-| Seguridad | BiometricPrompt |
-| Compilación | Gradle 8.11.1 + KSP |
-
----
-
-## ⚡ Inicio Rápido
-
-### Prerrequisitos
-- Android Studio Hedgehog (2023.1.1) o superior
-- JDK 17
-- Dispositivo o emulador con Android 8.0+ (API 26)
-
-### Configuración
-
-1. **Clonar el repositorio:**
-```bash
-git clone https://github.com/sr-avila-g/Organizer.git
-cd Organizer
+```
+ObsidianCard           →  Contenedor con glassmorphism oscuro
+ApexButton             →  Botón primario con gradiente animado
+MoneyDisplay           →  Renderizado inteligente de montos
+ProgressBarModular     →  Barra de progreso temática
+SegmentedControl       →  Selector de períodos
+AnimatedSplashScreen   →  Transiciones cinemáticas de entrada
 ```
 
-2. **Configurar credenciales de Supabase:**
+<br>
+
+---
+
+<br>
+
+## ◈ Stack Tecnológico
+
+```
+┌──────────────────┬──────────────────────────────────────┐
+│  Lenguaje        │  Kotlin 2.0                          │
+│  UI              │  Jetpack Compose + Material Design 3 │
+│  Navegación      │  Navigation Compose                  │
+│  DB Local        │  Room (SQLite)                       │
+│  Preferencias    │  DataStore                           │
+│  Nube            │  Supabase (PostgreSQL + REST)        │
+│  Background      │  WorkManager                         │
+│  Notificaciones  │  NotificationManager + AlarmManager  │
+│  Seguridad       │  BiometricPrompt                     │
+│  Build           │  Gradle 8.11.1 + KSP                │
+└──────────────────┴──────────────────────────────────────┘
+```
+
+<br>
+
+---
+
+<br>
+
+## ◈ Inicio Rápido
+
+### Prerrequisitos
+- Android Studio Hedgehog (2023.1.1)+
+- JDK 17
+- Android 8.0+ (API 26)
+
+### 1 · Clonar
 ```bash
-# Crear archivo local.properties en la raíz del proyecto
+git clone https://github.com/sr-avila-g/Apex-Money.git
+cd Apex-Money
+```
+
+### 2 · Configurar Supabase
+```bash
 echo "SUPABASE_URL=https://tu-proyecto.supabase.co" >> local.properties
 echo "SUPABASE_ANON_KEY=tu-clave-anonima" >> local.properties
 ```
 
-3. **Compilar y ejecutar:**
+### 3 · Compilar
 ```bash
 ./gradlew installDebug
 ```
 
+### 4 · Instalar directamente
+> Descarga el APK desde la sección de [**Releases**](../../releases) de este repositorio.
+
+<br>
+
 ---
 
-## 📁 Configuración de Supabase
+<br>
 
-Ejecutar el siguiente SQL en el editor de Supabase para crear las tablas necesarias:
+<details>
+<summary><strong>◈ Configuración de Supabase (SQL)</strong></summary>
+
+<br>
+
+Ejecutar en el SQL Editor de Supabase:
 
 ```sql
+-- ═══════════════════════════════════════════════
+-- APEX MONEY · Esquema de Base de Datos
+-- ═══════════════════════════════════════════════
+
 -- Transacciones
 CREATE TABLE transactions (
     id TEXT PRIMARY KEY,
@@ -238,7 +343,7 @@ CREATE TABLE budgets (
     is_deleted BOOLEAN NOT NULL DEFAULT false
 );
 
--- Bóvedas de ahorro
+-- Bóvedas de Ahorro
 CREATE TABLE savings_vaults (
     id TEXT PRIMARY KEY,
     user_id TEXT NOT NULL DEFAULT 'LOCAL_USER',
@@ -251,7 +356,7 @@ CREATE TABLE savings_vaults (
     is_deleted BOOLEAN NOT NULL DEFAULT false
 );
 
--- Pagos recurrentes
+-- Pagos Recurrentes
 CREATE TABLE recurring_payments (
     id TEXT PRIMARY KEY,
     user_id TEXT NOT NULL DEFAULT 'LOCAL_USER',
@@ -265,53 +370,81 @@ CREATE TABLE recurring_payments (
     is_deleted BOOLEAN NOT NULL DEFAULT false
 );
 
--- Habilitar Row Level Security
+-- Row Level Security
 ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE budgets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE savings_vaults ENABLE ROW LEVEL SECURITY;
 ALTER TABLE recurring_payments ENABLE ROW LEVEL SECURITY;
 
--- Políticas de acceso público (desarrollo)
+-- Políticas (desarrollo)
 CREATE POLICY "Allow all" ON transactions FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all" ON budgets FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all" ON savings_vaults FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all" ON recurring_payments FOR ALL USING (true) WITH CHECK (true);
 ```
 
----
+</details>
 
-## 📐 Especificaciones Técnicas
-
-| Propiedad | Valor |
-|---|---|
-| `applicationId` | `com.sravila.apexmoney` |
-| `minSdk` | 26 (Android 8.0) |
-| `targetSdk` | 34 (Android 14) |
-| `compileSdk` | 34 |
-| `versionName` | 1.0 |
-| Archivos Kotlin | 32 |
-| Módulos de Feature | 7 |
-| Módulos Core | 6 |
+<br>
 
 ---
+
+<br>
+
+## ◈ Especificaciones
 
 <div align="center">
 
----
-
-### 🖋️ Sr. Avila
-
-*Ingeniería de Software · Sistemas de Control Personal*
-
----
-
-> *"El que tiene un porqué para vivir, puede soportar casi cualquier cómo."*  
-> — **Friedrich Nietzsche**
-
----
-
-<sub>Desarrollado con disciplina, propósito y obsesión por el detalle.</sub>  
-<sub>© 2026 Sr. Avila. Todos los derechos reservados.</sub>
+| | |
+|:---:|:---:|
+| `applicationId` | `com.sravila.apexmoney` |
+| `minSdk` | 26 · Android 8.0 |
+| `targetSdk` | 34 · Android 14 |
+| `versionName` | 1.0 |
+| Archivos Kotlin | 32 |
+| Features | 7 módulos |
+| Core | 6 módulos |
 
 </div>
-]]>
+
+<br>
+
+---
+
+<br>
+
+<div align="center">
+
+<br>
+
+```
+═══════════════════════════════════════════════════════
+```
+
+<br>
+
+### ◈ Sr. Avila
+
+**Ingeniería de Software · Sistemas de Control Personal**
+
+<br>
+
+> *"El que tiene un porqué para vivir, puede soportar casi cualquier cómo."*
+>
+> — **Friedrich Nietzsche**
+
+<br>
+
+```
+═══════════════════════════════════════════════════════
+```
+
+<br>
+
+<sub>Desarrollado con disciplina, propósito y obsesión por el detalle.</sub>
+
+<sub>© 2026 Sr. Avila · Todos los derechos reservados.</sub>
+
+<br>
+
+</div>
