@@ -406,8 +406,8 @@ a {
 
 /* Mini components inside phone */
 .mini-card {
-  background: rgba(45, 10, 10, 0.5);
-  border: 1px solid rgba(74, 21, 21, 0.6);
+  background: var(--bg-card);
+  border: 1px solid var(--outline);
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 8px;
@@ -467,8 +467,8 @@ a {
   left: 0;
   right: 0;
   height: 48px;
-  background: rgba(10, 10, 10, 0.95);
-  border-top: 1px solid rgba(74, 21, 21, 0.4);
+  background: var(--bg-primary);
+  border-top: 1px solid var(--outline);
   display: flex;
   justify-content: space-around;
   align-items: center;

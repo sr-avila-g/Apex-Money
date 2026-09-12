@@ -59,7 +59,7 @@
             <div class="phone-mockup__carousel">
 
               <!-- Slide 1: Dashboard -->
-              <div class="phone-mockup__slide" style="background: #0A0A0A;">
+              <div class="phone-mockup__slide" style="background: var(--bg-primary);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                   <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-primary);">Centro de Mando</span>
                   <div style="display: flex; gap: 6px; align-items: center;">
@@ -67,16 +67,16 @@
                     <span style="font-size: 0.7rem; opacity: 0.5;">⚙</span>
                   </div>
                 </div>
-                <div class="mini-card" style="border-color: rgba(255,42,42,0.4); padding: 12px;">
+                <div class="mini-card" style="border-color: var(--accent-red); box-shadow: 0 0 12px var(--accent-red-dim); padding: 12px;">
                   <div class="mini-label">BALANCE DISPONIBLE NETO</div>
                   <div class="mini-balance">Bs 12,450</div>
-                  <div style="height: 1px; background: rgba(74,21,21,0.4); margin: 8px 0;"></div>
+                  <div style="height: 1px; background: var(--outline); margin: 8px 0;"></div>
                   <div style="display: flex; gap: 8px;">
                     <div style="flex: 1;">
                       <div class="mini-label">Ingresos</div>
                       <div class="mini-amount" style="color: var(--income-green);">+Bs 8,200</div>
                     </div>
-                    <div style="width: 1px; background: rgba(74,21,21,0.4);"></div>
+                    <div style="width: 1px; background: var(--outline);"></div>
                     <div style="flex: 1;">
                       <div class="mini-label">Gastos</div>
                       <div class="mini-amount" style="color: var(--expense-red);">-Bs 3,750</div>
@@ -125,12 +125,12 @@
               </div>
 
               <!-- Slide 2: Analytics -->
-              <div class="phone-mockup__slide" style="background: #0A0A0A;">
+              <div class="phone-mockup__slide" style="background: var(--bg-primary);">
                 <div class="mini-section-title" style="margin-bottom: 8px;">Analíticas</div>
-                <div class="mini-card" style="border-color: rgba(255,42,42,0.3); padding: 10px;">
+                <div class="mini-card" style="border-color: var(--accent-red); box-shadow: 0 0 12px var(--accent-red-dim); padding: 10px;">
                   <div class="mini-label">CATEGORÍA DE MAYOR GASTO</div>
                   <div style="font-size: 0.9rem; font-weight: 800; color: var(--expense-red); margin: 4px 0;">Alimentación</div>
-                  <div style="height: 1px; background: rgba(74,21,21,0.4); margin: 6px 0;"></div>
+                  <div style="height: 1px; background: var(--outline); margin: 6px 0;"></div>
                   <div style="display: flex; gap: 6px; text-align: center;">
                     <div style="flex: 1;"><div class="mini-label">Ahorro</div><div style="font-size: 0.75rem; font-weight: 700; color: var(--income-green);">54%</div></div>
                     <div style="flex: 1;"><div class="mini-label">Gasto</div><div style="font-size: 0.75rem; font-weight: 700; color: var(--accent-blue);">46%</div></div>
@@ -168,7 +168,7 @@
               </div>
 
               <!-- Slide 3: Vaults -->
-              <div class="phone-mockup__slide" style="background: #0A0A0A;">
+              <div class="phone-mockup__slide" style="background: var(--bg-primary);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                   <span class="mini-section-title" style="margin: 0;">Bóvedas</span>
                   <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--accent-red); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800;">+</div>
@@ -181,7 +181,7 @@
                 </div>
                 <div class="mini-card" style="padding: 10px; margin-top: 8px;">
                   <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                    <div class="mini-vault-icon" style="background: rgba(255,42,42,0.15);">🚗</div>
+                    <div class="mini-vault-icon" style="background: var(--accent-red-dim);">🚗</div>
                     <div>
                       <div style="font-size: 0.65rem; font-weight: 700;">Auto Nuevo</div>
                       <div style="font-size: 0.45rem; color: var(--text-secondary);">Vehículo</div>
@@ -192,7 +192,7 @@
                 </div>
                 <div class="mini-card" style="padding: 10px;">
                   <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                    <div class="mini-vault-icon" style="background: rgba(59,130,246,0.15);">✈️</div>
+                    <div class="mini-vault-icon" style="background: var(--accent-blue-glow);">✈️</div>
                     <div>
                       <div style="font-size: 0.65rem; font-weight: 700;">Viaje Europa</div>
                       <div style="font-size: 0.45rem; color: var(--text-secondary);">Vacaciones</div>
@@ -292,7 +292,7 @@
       </div>
       <div class="grid-2" style="gap: 48px;">
         <div class="flex-col gap-lg reveal">
-          <div class="obsidian-card theme-card active" data-theme-switch="default" style="border-color: rgba(255,42,42,0.4);">
+          <div class="obsidian-card theme-card active" data-theme-switch="default" style="border-color: var(--accent-red); box-shadow: 0 0 12px var(--accent-red-dim);">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
               <div style="width: 16px; height: 16px; border-radius: 50%; background: #FF2A2A; box-shadow: 0 0 12px rgba(255, 42, 42, 0.3);"></div>
               <h3 style="font-size: 1rem; font-weight: 700;">Blood Sun</h3>
@@ -330,18 +330,18 @@
             <div class="phone-mockup__notch"></div>
             <div class="phone-mockup__screen">
               <!-- Static Dashboard view for themes section -->
-              <div style="padding: 12px; background: #0A0A0A; height: 100%;">
+              <div style="padding: 12px; background: var(--bg-primary); height: 100%;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                   <span style="font-size: 0.75rem; font-weight: 700;">Centro de Mando</span>
                   <span class="mini-chip" style="background: rgba(76,175,80,0.15); color: var(--income-green);">● 82</span>
                 </div>
-                <div class="mini-card" style="border-color: rgba(255,42,42,0.4); padding: 14px;">
+                <div class="mini-card" style="border-color: var(--accent-red); box-shadow: 0 0 12px var(--accent-red-dim); padding: 14px;">
                   <div class="mini-label">BALANCE DISPONIBLE NETO</div>
                   <div class="mini-balance" style="font-size: 1.8rem;">Bs 12,450</div>
-                  <div style="height: 1px; background: rgba(74,21,21,0.4); margin: 10px 0;"></div>
+                  <div style="height: 1px; background: var(--outline); margin: 10px 0;"></div>
                   <div style="display: flex; gap: 10px;">
                     <div style="flex: 1;"><div class="mini-label">Ingresos</div><div class="mini-amount" style="color: var(--income-green); font-size: 0.9rem;">+Bs 8,200</div></div>
-                    <div style="width: 1px; background: rgba(74,21,21,0.4);"></div>
+                    <div style="width: 1px; background: var(--outline);"></div>
                     <div style="flex: 1;"><div class="mini-label">Gastos</div><div class="mini-amount" style="color: var(--expense-red); font-size: 0.9rem;">-Bs 3,750</div></div>
                   </div>
                 </div>
@@ -357,7 +357,7 @@
                     <div class="mini-progress" style="margin-top: 6px;"><div class="mini-progress__fill mini-progress__fill--green" style="width: 54%;"></div></div>
                   </div>
                 </div>
-                <div style="background: linear-gradient(135deg, var(--accent-red), #CC0000); border-radius: 100px; padding: 10px; text-align: center; font-weight: 700; font-size: 0.7rem; margin: 10px 0; box-shadow: 0 4px 16px var(--accent-red-glow);">
+                <div style="background: var(--accent-red); border-radius: 100px; padding: 10px; text-align: center; font-weight: 700; font-size: 0.7rem; margin: 10px 0; box-shadow: 0 0 12px var(--accent-red-glow); color: var(--bg-void);">
                   + Registro Rápido
                 </div>
                 <div class="mini-section-title">Transacciones</div>
