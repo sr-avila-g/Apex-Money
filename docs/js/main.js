@@ -49,4 +49,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ── Theme Switcher ──
+  const themeCards = document.querySelectorAll('.theme-card');
+  const root = document.documentElement;
+
+  themeCards.forEach(card => {
+    card.addEventListener('click', () => {
+      // Remove active class from all cards
+      themeCards.forEach(c => c.classList.remove('active'));
+      // Add active class to clicked card
+      card.classList.add('active');
+      
+      // Update theme on html element
+      const theme = card.getAttribute('data-theme-switch');
+      if (theme === 'default') {
+        root.removeAttribute('data-theme');
+      } else {
+        root.setAttribute('data-theme', theme);
+      }
+    });
+  });
+
 });
