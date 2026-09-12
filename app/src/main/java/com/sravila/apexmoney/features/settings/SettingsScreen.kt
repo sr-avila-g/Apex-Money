@@ -345,7 +345,7 @@ fun SettingsScreen(
 
             // 5. Información del Sistema & Firma Sr. Avila
             item {
-                SectionHeader(title = "Acerca de Organizer")
+                SectionHeader(title = "Acerca de Apex Money")
                 ObsidianCard(
                     borderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
                     modifier = Modifier.fillMaxWidth()
@@ -360,7 +360,7 @@ fun SettingsScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
-                                text = "Organizer",
+                                text = "Apex Money",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = MaterialTheme.colorScheme.onSurface
                             )

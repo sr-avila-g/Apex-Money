@@ -93,7 +93,7 @@ class MainActivity : FragmentActivity() {
                             }
                         })
                     val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                        .setTitle("Organizer")
+                        .setTitle("Apex Money")
                         .setSubtitle("Autenticación Requerida")
                         .setNegativeButtonText("Salir")
                         .build()
