@@ -96,7 +96,7 @@
 /* ── Theme: Soft Day ── */
 [data-theme="soft"] {
   --bg-void: #FAF8F4;
-  --bg-primary: #FDF BF7;
+  --bg-primary: #FDFBF7;
   --bg-surface: #F3EFE9;
   --bg-card: #EAE5DD;
   --accent-red: #D6BA96;
@@ -269,7 +269,7 @@ a {
 
 /* ── ObsidianCard (Replica) ── */
 .obsidian-card {
-  background: linear-gradient(135deg, rgba(45, 10, 10, 0.6), rgba(26, 5, 5, 0.8));
+  background: color-mix(in srgb, var(--bg-surface) 70%, transparent);
   border: 1px solid var(--outline);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
@@ -285,8 +285,8 @@ a {
 }
 
 .obsidian-card--blue {
-  background: linear-gradient(135deg, rgba(11, 25, 44, 0.6), rgba(6, 17, 32, 0.8));
-  border-color: rgba(59, 130, 246, 0.2);
+  background: color-mix(in srgb, var(--accent-blue) 8%, color-mix(in srgb, var(--bg-surface) 70%, transparent));
+  border-color: var(--accent-blue-glow);
 }
 
 .obsidian-card--blue:hover {
@@ -743,7 +743,8 @@ a {
 
 .footer__copy {
   font-size: 0.75rem;
-  color: rgba(255, 163, 163, 0.4);
+  color: var(--text-secondary);
+  opacity: 0.6;
   margin-top: var(--space-xl);
 }
 
