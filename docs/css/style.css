@@ -444,7 +444,7 @@ a {
 .mini-progress {
   width: 100%;
   height: 6px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--outline);
   border-radius: 3px;
   overflow: hidden;
   margin-top: 4px;
@@ -453,13 +453,19 @@ a {
 .mini-progress__fill {
   height: 100%;
   border-radius: 3px;
-  transition: width 1s ease;
+  width: 0;
+  animation: fillProgress 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-.mini-progress__fill--red { background: linear-gradient(90deg, var(--accent-red), #FF6B6B); }
-.mini-progress__fill--blue { background: linear-gradient(90deg, var(--accent-blue), #60A5FA); }
-.mini-progress__fill--green { background: linear-gradient(90deg, var(--income-green), #81C784); }
-.mini-progress__fill--yellow { background: linear-gradient(90deg, var(--warning-yellow), #FFD54F); }
+@keyframes fillProgress {
+  0% { width: 0; }
+  100% { width: var(--progress-width); }
+}
+
+.mini-progress__fill--red { background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red-glow); }
+.mini-progress__fill--blue { background: var(--accent-blue); box-shadow: 0 0 8px var(--accent-blue-glow); }
+.mini-progress__fill--green { background: var(--income-green); box-shadow: 0 0 8px rgba(76, 175, 80, 0.4); }
+.mini-progress__fill--yellow { background: var(--warning-yellow); box-shadow: 0 0 8px rgba(255, 193, 7, 0.4); }
 
 .mini-nav {
   position: absolute;
