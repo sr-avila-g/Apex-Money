@@ -42,8 +42,12 @@ object FinancialHealthCalculator {
         val totalSavings = vaults.sumOf { it.currentAmount }
         val totalBudgetLimit = budgets.sumOf { it.monthlyLimit }
 
+        val budgetedExpenses = transactions.filter { tx ->
+            tx.type == "EXPENSE" && budgets.any { it.categoryName.equals(tx.category, ignoreCase = true) }
+        }.sumOf { it.amount }
+
         val budgetSpentPercentage = if (totalBudgetLimit > 0) {
-            (totalExpenses / totalBudgetLimit).toFloat().coerceIn(0f, 2f)
+            (budgetedExpenses / totalBudgetLimit).toFloat().coerceIn(0f, 2f)
         } else {
             0f
         }
