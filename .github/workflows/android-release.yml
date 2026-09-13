@@ -34,13 +34,13 @@ jobs:
     - name: 📦 Renombrar APK
       run: mv app/build/outputs/apk/debug/app-debug.apk ApexMoney-Automated.apk
       
-    - name: 🚀 Actualizar Release Continua (Latest)
+    - name: 🚀 Crear Release Automático
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: latest
-        name: "🔥 Última Versión Automática (Latest)"
-        body: "Este APK se compila y sube automáticamente cada vez que se detectan cambios en el código (rama `main`)."
+        tag_name: build-${{ github.run_number }}
+        name: "🚀 Build #${{ github.run_number }}"
+        body: "Este APK se compiló automáticamente desde la rama `main`."
         files: ApexMoney-Automated.apk
-        prerelease: true
+        make_latest: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
