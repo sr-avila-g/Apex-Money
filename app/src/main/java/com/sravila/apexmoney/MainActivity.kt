@@ -149,6 +149,7 @@ fun ApexMoneyMainContent(
     var showAddBudgetDialog by remember { mutableStateOf(false) }
     var showAddVaultDialog by remember { mutableStateOf(false) }
     var showAddRecurringDialog by remember { mutableStateOf(false) }
+    var accountToEdit by remember { mutableStateOf<com.sravila.apexmoney.core.database.AccountEntity?>(null) }
 
     Scaffold(
         bottomBar = {
@@ -244,7 +245,8 @@ fun ApexMoneyMainContent(
                     currencySymbol = userCurrencySymbol,
                     onNavigateBack = { navController.popBackStack() },
                     onEditAccount = { account ->
-                        // TODO: Implement edit
+                        accountToEdit = account
+                        showAddAccountSheet = true
                     }
                 )
             }
@@ -310,11 +312,34 @@ fun ApexMoneyMainContent(
     
     if (showAddAccountSheet) {
         com.sravila.apexmoney.features.accounts.AddAccountBottomSheet(
-            onDismissRequest = { showAddAccountSheet = false },
+            onDismissRequest = { 
+                showAddAccountSheet = false 
+                accountToEdit = null
+            },
             onSave = { name, type, initial, color, isCreditCard ->
-                accountsViewModel.addAccount(name, type, initial, color, isCreditCard)
+                if (accountToEdit != null) {
+                    accountsViewModel.editAccount(
+                        accountToEdit!!.copy(
+                            name = name,
+                            type = type,
+                            initialBalance = if (isCreditCard) 0.0 else initial,
+                            colorHex = color,
+                            isCreditCard = isCreditCard,
+                            iconName = when (type) {
+                                "BANK_ACCOUNT" -> "AccountBalance"
+                                "DIGITAL_WALLET" -> "PhoneAndroid"
+                                "CREDIT_CARD" -> "CreditCard"
+                                else -> "AccountBalanceWallet"
+                            }
+                        )
+                    )
+                } else {
+                    accountsViewModel.addAccount(name, type, initial, color, isCreditCard)
+                }
                 showAddAccountSheet = false
-            }
+                accountToEdit = null
+            },
+            existingAccount = accountToEdit
         )
     }
 }

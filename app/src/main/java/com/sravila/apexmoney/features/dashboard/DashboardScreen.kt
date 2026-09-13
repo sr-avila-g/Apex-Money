@@ -357,10 +357,13 @@ fun DashboardScreen(
         
         // 5. Transacciones Recientes Header
         item {
+            val context = androidx.compose.ui.platform.LocalContext.current
             SectionHeader(
                 title = "Transacciones Recientes",
                 actionText = "Ver Todo",
-                onAction = { /* TODO Navigate to Transactions */ }
+                onAction = { 
+                    android.widget.Toast.makeText(context, "Historial completo próximamente...", android.widget.Toast.LENGTH_SHORT).show()
+                }
             )
         }
         
