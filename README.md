@@ -452,7 +452,7 @@ CREATE POLICY "Allow all" ON recurring_payments FOR ALL USING (true) WITH CHECK 
 | `applicationId` | `com.sravila.apexmoney` |
 | `minSdk` | 26 · Android 8.0 |
 | `targetSdk` | 34 · Android 14 |
-| `versionName` | 1.0 |
+| `versionName` | 2.0 |
 | Archivos Kotlin | 32 |
 | Features | 7 módulos |
 | Core | 6 módulos |
