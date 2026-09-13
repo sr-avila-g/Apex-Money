@@ -243,7 +243,8 @@ fun ApexMoneyMainContent(
                 dashboardViewModel.addTransaction(transaction)
             },
             currencySymbol = userCurrencySymbol,
-            dynamicCategories = uiState.budgetCategories
+            dynamicCategories = uiState.budgetCategories,
+            accounts = uiState.accounts.map { it.account }
         )
     }
 

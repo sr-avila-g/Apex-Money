@@ -41,12 +41,14 @@ class SyncWorker(
             val client = SupabaseApi.getClient(userPrefs.customSupabaseUrl, userPrefs.customSupabaseKey)
 
             // 2. PUSH (Local -> Remote)
+            pushAccounts(client, db, lastSync)
             pushTransactions(client, db, lastSync)
             pushBudgets(client, db, lastSync)
             pushVaults(client, db, lastSync)
             pushRecurring(client, db, lastSync)
 
             // 3. PULL (Remote -> Local) with Conflict Resolution
+            pullAccounts(client, db, lastSync)
             pullTransactions(client, db, lastSync)
             pullBudgets(client, db, lastSync)
             pullVaults(client, db, lastSync)
@@ -59,6 +61,24 @@ class SyncWorker(
         } catch (e: Exception) {
             Log.e("SyncWorker", "Error during sync: ${e.message}", e)
             Result.retry()
+        }
+    }
+
+    private suspend fun pushAccounts(client: SupabaseClient, db: ApexMoneyDatabase, lastSync: String) {
+        val modified = db.accountDao().getAccountsModifiedSince(lastSync)
+        if (modified.isNotEmpty()) {
+            val dtos = modified.map { it.toDto() }
+            client.postgrest["accounts"].upsert(dtos)
+        }
+    }
+
+    private suspend fun pullAccounts(client: SupabaseClient, db: ApexMoneyDatabase, lastSync: String) {
+        val remote = client.postgrest["accounts"]
+            .select { filter { gt("updated_at", lastSync) } }
+            .decodeList<AccountDto>()
+        
+        remote.forEach { dto ->
+            db.accountDao().insertAccount(dto.toEntity())
         }
     }
 
@@ -139,6 +159,7 @@ class SyncWorker(
         // Ensure we only delete things older than 30 days that have ALSO been successfully synced
         val thresholdDate = minOf(thirtyDaysAgo, lastSync.takeIf { it != "1970-01-01T00:00:00Z" } ?: thirtyDaysAgo)
         
+        db.accountDao().purgeOldDeletedAccounts(thresholdDate)
         db.transactionDao().purgeOldDeletedTransactions(thresholdDate)
         db.budgetDao().purgeOldDeletedBudgets(thresholdDate)
         db.vaultDao().purgeOldDeletedVaults(thresholdDate)

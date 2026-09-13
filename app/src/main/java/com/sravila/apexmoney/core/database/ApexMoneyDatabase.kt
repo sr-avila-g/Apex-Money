@@ -17,14 +17,16 @@ import java.time.format.DateTimeFormatter
         TransactionEntity::class,
         BudgetCategoryEntity::class,
         SavingsVaultEntity::class,
-        RecurringPaymentEntity::class
+        RecurringPaymentEntity::class,
+        AccountEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class ApexMoneyDatabase : RoomDatabase() {
 
     abstract fun transactionDao(): TransactionDao
+    abstract fun accountDao(): AccountDao
     abstract fun budgetDao(): BudgetDao
     abstract fun vaultDao(): VaultDao
     abstract fun recurringDao(): RecurringDao
@@ -88,12 +90,21 @@ abstract class ApexMoneyDatabase : RoomDatabase() {
                 )
                 recurring.forEach { db.recurringDao().insertRecurring(it) }
 
+                // Cuentas iniciales predeterminadas
+                val mainAccount = AccountEntity(name = "Cuenta Principal (Banco)", type = "BANK_ACCOUNT", initialBalance = 1500.0, colorHex = "#3B82F6", iconName = "AccountBalance")
+                val wallet = AccountEntity(name = "Billetera Física", type = "CASH", initialBalance = 200.0, colorHex = "#4CAF50", iconName = "AccountBalanceWallet")
+                val creditCard = AccountEntity(name = "Tarjeta de Crédito", type = "BANK_ACCOUNT", initialBalance = 0.0, colorHex = "#FF2A2A", iconName = "CreditCard")
+                
+                db.accountDao().insertAccount(mainAccount)
+                db.accountDao().insertAccount(wallet)
+                db.accountDao().insertAccount(creditCard)
+
                 // Transacciones iniciales de demostración
                 val transactions = listOf(
-                    TransactionEntity(type = "INCOME", amount = 3500.0, category = "Salario / Proyecto", date = today, time = timeNow, note = "Cobro de Honorarios Mensuales", account = "Cuenta Principal"),
-                    TransactionEntity(type = "EXPENSE", amount = 145.50, category = "Alimentos y Mercado", date = today, time = timeNow, note = "Supermercado Semanal", account = "Tarjeta Débito"),
-                    TransactionEntity(type = "EXPENSE", amount = 45.0, category = "Suscripciones & Ocio", date = today, time = timeNow, note = "Suscripciones Cloud", account = "Tarjeta Crédito"),
-                    TransactionEntity(type = "EXPENSE", amount = 32.0, category = "Transporte & Gasolina", date = today, time = timeNow, note = "Recarga de Combustible", account = "Efectivo")
+                    TransactionEntity(type = "INCOME", amount = 3500.0, category = "Salario / Proyecto", date = today, time = timeNow, note = "Cobro de Honorarios Mensuales", accountId = mainAccount.id),
+                    TransactionEntity(type = "EXPENSE", amount = 145.50, category = "Alimentos y Mercado", date = today, time = timeNow, note = "Supermercado Semanal", accountId = mainAccount.id),
+                    TransactionEntity(type = "EXPENSE", amount = 45.0, category = "Suscripciones & Ocio", date = today, time = timeNow, note = "Suscripciones Cloud", accountId = creditCard.id),
+                    TransactionEntity(type = "EXPENSE", amount = 32.0, category = "Transporte & Gasolina", date = today, time = timeNow, note = "Recarga de Combustible", accountId = wallet.id)
                 )
                 transactions.forEach { db.transactionDao().insertTransaction(it) }
             }

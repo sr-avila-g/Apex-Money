@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.sravila.apexmoney.core.database.TransactionEntity
 import com.sravila.apexmoney.core.ui.ApexButton
 import com.sravila.apexmoney.core.ui.SegmentedControl
+import com.sravila.apexmoney.core.database.AccountEntity
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -41,18 +42,23 @@ fun QuickEntryBottomSheet(
     onDismissRequest: () -> Unit,
     onSaveTransaction: (TransactionEntity) -> Unit,
     currencySymbol: String = "$",
-    dynamicCategories: List<String> = emptyList()
+    dynamicCategories: List<String> = emptyList(),
+    accounts: List<AccountEntity> = emptyList()
 ) {
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
 
-    var selectedTypeIndex by remember { mutableStateOf(0) } // 0 = EXPENSE, 1 = INCOME
+    var selectedTypeIndex by remember { mutableStateOf(0) } // 0 = EXPENSE, 1 = INCOME, 2 = TRANSFER
     val isExpense = selectedTypeIndex == 0
+    val isIncome = selectedTypeIndex == 1
+    val isTransfer = selectedTypeIndex == 2
 
     var amountText by remember { mutableStateOf("") }
-    var selectedCategory by remember { mutableStateOf(if (isExpense) "Alimentos y Mercado" else "Salario / Honorarios") }
+    var selectedCategory by remember { mutableStateOf(if (isExpense) "Alimentos y Mercado" else if (isIncome) "Salario / Honorarios" else "Transferencia") }
     var noteText by remember { mutableStateOf("") }
-    var selectedAccount by remember { mutableStateOf("Tarjeta Débito") }
+    
+    var selectedAccount by remember(accounts) { mutableStateOf(accounts.firstOrNull()) }
+    var destinationAccount by remember(accounts) { mutableStateOf(accounts.firstOrNull { it != selectedAccount } ?: accounts.firstOrNull()) }
 
     var selectedDate by remember { mutableStateOf(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)) }
     var selectedTime by remember { mutableStateOf(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))) }
@@ -61,9 +67,9 @@ fun QuickEntryBottomSheet(
     val expenseCategories = if (dynamicCategories.isNotEmpty()) dynamicCategories else defaultExpenseCategories
     
     val incomeCategories = listOf("Salario / Honorarios", "Inversión & Rendimientos", "Venta / Negocio", "Reembolso", "Otros Ingresos")
-    val accounts = listOf("Tarjeta Débito", "Efectivo", "Tarjeta Crédito", "Cuenta Principal")
+    val transferCategories = listOf("Transferencia Bancaria", "Retiro Efectivo", "Depósito Efectivo")
 
-    val categories = if (isExpense) expenseCategories else incomeCategories
+    val categories = if (isExpense) expenseCategories else if (isIncome) incomeCategories else transferCategories
 
     // Date Picker
     val datePickerDialog = DatePickerDialog(
@@ -118,13 +124,13 @@ fun QuickEntryBottomSheet(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Selector Tipo (Gasto / Ingreso)
+            // Selector Tipo (Gasto / Ingreso / Transferencia)
             SegmentedControl(
-                items = listOf("Gasto (-)", "Ingreso (+)"),
+                items = listOf("Gasto", "Ingreso", "Transfer"),
                 selectedIndex = selectedTypeIndex,
                 onItemSelected = { index ->
                     selectedTypeIndex = index
-                    selectedCategory = if (index == 0) expenseCategories[0] else incomeCategories[0]
+                    selectedCategory = if (index == 0) expenseCategories[0] else if (index == 1) incomeCategories[0] else transferCategories[0]
                 }
             )
 
@@ -187,6 +193,70 @@ fun QuickEntryBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Selectores de Cuentas
+            Text(
+                text = if (isTransfer) "Cuenta Origen" else "Cuenta",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(accounts) { acc ->
+                    val isSelected = acc == selectedAccount
+                    val chipBg = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceVariant
+                    val chipText = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(chipBg)
+                            .border(1.dp, if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
+                            .clickable { selectedAccount = acc }
+                            .padding(horizontal = 14.dp, vertical = 8.dp)
+                    ) {
+                        Text(
+                            text = acc.name,
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal),
+                            color = chipText
+                        )
+                    }
+                }
+            }
+
+            if (isTransfer) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Cuenta Destino",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    items(accounts.filter { it != selectedAccount }) { acc ->
+                        val isSelected = acc == destinationAccount
+                        val chipBg = if (isSelected) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surfaceVariant
+                        val chipText = if (isSelected) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(chipBg)
+                                .border(1.dp, if (isSelected) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
+                                .clickable { destinationAccount = acc }
+                                .padding(horizontal = 14.dp, vertical = 8.dp)
+                        ) {
+                            Text(
+                                text = acc.name,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal),
+                                color = chipText
+                            )
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             // Selector de Fecha y Hora
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -235,22 +305,23 @@ fun QuickEntryBottomSheet(
                 icon = Icons.Default.Check,
                 onClick = {
                     val amount = amountText.toDoubleOrNull() ?: 0.0
-                    if (amount > 0) {
+                    if (amount > 0 && selectedAccount != null) {
                         val transaction = TransactionEntity(
-                            type = if (isExpense) "EXPENSE" else "INCOME",
+                            type = if (isExpense) "EXPENSE" else if (isIncome) "INCOME" else "TRANSFER",
                             amount = amount,
                             category = selectedCategory,
                             date = selectedDate,
                             time = selectedTime,
                             note = noteText.ifBlank { null },
-                            account = selectedAccount
+                            accountId = selectedAccount!!.id,
+                            destinationAccountId = if (isTransfer) destinationAccount?.id else null
                         )
                         onSaveTransaction(transaction)
                         onDismissRequest()
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = (amountText.toDoubleOrNull() ?: 0.0) > 0
+                enabled = (amountText.toDoubleOrNull() ?: 0.0) > 0 && selectedAccount != null && (!isTransfer || destinationAccount != null)
             )
         }
     }

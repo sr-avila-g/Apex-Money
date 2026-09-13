@@ -328,6 +328,19 @@ Ejecutar en el SQL Editor de Supabase:
 -- APEX MONEY · Esquema de Base de Datos
 -- ═══════════════════════════════════════════════
 
+-- Cuentas (Billeteras / Bancos)
+CREATE TABLE accounts (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL DEFAULT 'LOCAL_USER',
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    initial_balance REAL NOT NULL DEFAULT 0,
+    color_hex TEXT NOT NULL,
+    icon_name TEXT NOT NULL,
+    updated_at TEXT NOT NULL DEFAULT now()::text,
+    is_deleted BOOLEAN NOT NULL DEFAULT false
+);
+
 -- Transacciones
 CREATE TABLE transactions (
     id TEXT PRIMARY KEY,
@@ -337,6 +350,9 @@ CREATE TABLE transactions (
     category TEXT NOT NULL,
     description TEXT,
     date TEXT NOT NULL,
+    account_id TEXT NOT NULL,
+    destination_account_id TEXT,
+    is_recurring BOOLEAN NOT NULL DEFAULT false,
     updated_at TEXT NOT NULL DEFAULT now()::text,
     is_deleted BOOLEAN NOT NULL DEFAULT false
 );
@@ -381,12 +397,14 @@ CREATE TABLE recurring_payments (
 );
 
 -- Row Level Security
+ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE budgets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE savings_vaults ENABLE ROW LEVEL SECURITY;
 ALTER TABLE recurring_payments ENABLE ROW LEVEL SECURITY;
 
 -- Políticas (desarrollo)
+CREATE POLICY "Allow all" ON accounts FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all" ON transactions FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all" ON budgets FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all" ON savings_vaults FOR ALL USING (true) WITH CHECK (true);

@@ -6,6 +6,7 @@ import com.sravila.apexmoney.core.database.TransactionEntity
 import com.sravila.apexmoney.core.database.BudgetCategoryEntity
 import com.sravila.apexmoney.core.database.SavingsVaultEntity
 import com.sravila.apexmoney.core.database.RecurringPaymentEntity
+import com.sravila.apexmoney.core.database.AccountEntity
 
 
 @Serializable
@@ -17,8 +18,21 @@ data class TransactionDto(
     @SerialName("date") val date: String,
     @SerialName("time") val time: String,
     @SerialName("note") val note: String?,
-    @SerialName("account") val account: String?,
+    @SerialName("account_id") val accountId: String,
+    @SerialName("destination_account_id") val destinationAccountId: String?,
     @SerialName("is_recurring") val isRecurring: Boolean,
+    @SerialName("updated_at") val updatedAt: String,
+    @SerialName("is_deleted") val isDeleted: Boolean
+)
+
+@Serializable
+data class AccountDto(
+    @SerialName("id") val id: String,
+    @SerialName("name") val name: String,
+    @SerialName("type") val type: String,
+    @SerialName("initial_balance") val initialBalance: Double,
+    @SerialName("color_hex") val colorHex: String,
+    @SerialName("icon_name") val iconName: String,
     @SerialName("updated_at") val updatedAt: String,
     @SerialName("is_deleted") val isDeleted: Boolean
 )
@@ -63,12 +77,20 @@ data class RecurringPaymentDto(
 
 fun TransactionEntity.toDto() = TransactionDto(
     id = id, type = type, amount = amount, category = category, date = date, time = time,
-    note = note, account = account, isRecurring = isRecurring, updatedAt = updatedAt, isDeleted = isDeleted
+    note = note, accountId = accountId, destinationAccountId = destinationAccountId, isRecurring = isRecurring, updatedAt = updatedAt, isDeleted = isDeleted
 )
 
 fun TransactionDto.toEntity() = TransactionEntity(
     id = id, type = type, amount = amount, category = category, date = date, time = time,
-    note = note, account = account, isRecurring = isRecurring, updatedAt = updatedAt, isDeleted = isDeleted
+    note = note, accountId = accountId, destinationAccountId = destinationAccountId, isRecurring = isRecurring, updatedAt = updatedAt, isDeleted = isDeleted
+)
+
+fun AccountEntity.toDto() = AccountDto(
+    id = id, name = name, type = type, initialBalance = initialBalance, colorHex = colorHex, iconName = iconName, updatedAt = updatedAt, isDeleted = isDeleted
+)
+
+fun AccountDto.toEntity() = AccountEntity(
+    id = id, name = name, type = type, initialBalance = initialBalance, colorHex = colorHex, iconName = iconName, updatedAt = updatedAt, isDeleted = isDeleted
 )
 
 fun BudgetCategoryEntity.toDto() = BudgetDto(

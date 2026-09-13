@@ -88,7 +88,8 @@ class VaultsViewModel(application: Application) : AndroidViewModel(application) 
                     category = "Transferencia a Bóveda",
                     date = date,
                     time = time,
-                    note = "Depósito en bóveda: ${vault.vaultName}"
+                    note = "Depósito en bóveda: ${vault.vaultName}",
+                    accountId = "acc_main"
                 )
             )
         }
@@ -112,7 +113,8 @@ class VaultsViewModel(application: Application) : AndroidViewModel(application) 
                     category = "Retiro de Bóveda",
                     date = date,
                     time = time,
-                    note = "Retiro de bóveda: ${vault.vaultName}"
+                    note = "Retiro de bóveda: ${vault.vaultName}",
+                    accountId = "acc_main"
                 )
             )
         }

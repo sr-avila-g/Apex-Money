@@ -166,6 +166,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                                     category = parts[5],
                                     type = parts[6],
                                     isRecurring = parts[7].toBooleanStrictOrNull() ?: false,
+                                    accountId = "acc_main",
                                     updatedAt = java.time.Instant.now().toString(),
                                     isDeleted = false
                                 )

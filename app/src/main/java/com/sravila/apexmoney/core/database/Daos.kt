@@ -152,3 +152,51 @@ interface RecurringDao {
     @Query("DELETE FROM recurring_payments WHERE isDeleted = 1 AND updatedAt < :thresholdDate")
     suspend fun purgeOldDeletedRecurring(thresholdDate: String)
 }
+
+@Dao
+interface AccountDao {
+    @Query("""
+        SELECT a.*, 
+        (a.initialBalance 
+         + IFNULL((SELECT SUM(amount) FROM transactions WHERE accountId = a.id AND type = 'INCOME' AND isDeleted = 0), 0)
+         - IFNULL((SELECT SUM(amount) FROM transactions WHERE accountId = a.id AND type = 'EXPENSE' AND isDeleted = 0), 0)
+         - IFNULL((SELECT SUM(amount) FROM transactions WHERE accountId = a.id AND type = 'TRANSFER' AND isDeleted = 0), 0)
+         + IFNULL((SELECT SUM(amount) FROM transactions WHERE destinationAccountId = a.id AND type = 'TRANSFER' AND isDeleted = 0), 0)
+        ) as currentBalance
+        FROM accounts a WHERE a.isDeleted = 0 ORDER BY a.name ASC
+    """)
+    fun getAccountsWithBalanceFlow(): Flow<List<AccountWithBalance>>
+
+    @Query("SELECT * FROM accounts WHERE isDeleted = 0 ORDER BY name ASC")
+    fun getAllAccountsFlow(): Flow<List<AccountEntity>>
+
+    @Query("SELECT * FROM accounts WHERE isDeleted = 0 ORDER BY name ASC")
+    suspend fun getAllAccounts(): List<AccountEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAccount(account: AccountEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAccounts(accounts: List<AccountEntity>)
+
+    @Query("SELECT * FROM accounts WHERE id IN (:ids)")
+    suspend fun getAccountsByIds(ids: List<String>): List<AccountEntity>
+
+    @Update
+    suspend fun updateAccount(account: AccountEntity)
+
+    @Query("UPDATE accounts SET isDeleted = 1, updatedAt = :updatedAt WHERE id = :id")
+    suspend fun softDeleteAccount(id: String, updatedAt: String = java.time.Instant.now().toString())
+
+    @Query("SELECT * FROM accounts WHERE updatedAt > :timestamp")
+    suspend fun getAccountsModifiedSince(timestamp: String): List<AccountEntity>
+
+    @Query("SELECT COUNT(*) FROM accounts WHERE isDeleted = 1")
+    fun countDeletedAccountsFlow(): Flow<Int>
+
+    @Query("DELETE FROM accounts WHERE isDeleted = 1")
+    suspend fun emptyTrashAccounts()
+
+    @Query("DELETE FROM accounts WHERE isDeleted = 1 AND updatedAt < :thresholdDate")
+    suspend fun purgeOldDeletedAccounts(thresholdDate: String)
+}

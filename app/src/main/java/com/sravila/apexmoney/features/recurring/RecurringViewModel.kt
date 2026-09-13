@@ -84,7 +84,8 @@ class RecurringViewModel(application: Application) : AndroidViewModel(applicatio
                         date = date,
                         time = time,
                         note = "Pago recurrente: ${payment.title}",
-                        isRecurring = true
+                        isRecurring = true,
+                        accountId = "acc_main"
                     )
                 )
             } else {
@@ -97,7 +98,8 @@ class RecurringViewModel(application: Application) : AndroidViewModel(applicatio
                         date = date,
                         time = time,
                         note = "Reverso suscripción: ${payment.title}",
-                        isRecurring = true
+                        isRecurring = true,
+                        accountId = "acc_main"
                     )
                 )
             }

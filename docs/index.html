@@ -469,6 +469,19 @@
         <h3 class="heading" style="margin-bottom: 12px; font-size: 1rem;">Código SQL (Esquema de BD):</h3>
         <div style="background: rgba(0,0,0,0.5); padding: 16px; border-radius: 8px; border: 1px solid var(--outline); overflow-x: auto;">
 <pre style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #a8b2d1;">
+-- Cuentas (Billeteras / Bancos)
+CREATE TABLE accounts (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL DEFAULT 'LOCAL_USER',
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    initial_balance REAL NOT NULL DEFAULT 0,
+    color_hex TEXT NOT NULL,
+    icon_name TEXT NOT NULL,
+    updated_at TEXT NOT NULL DEFAULT now()::text,
+    is_deleted BOOLEAN NOT NULL DEFAULT false
+);
+
 -- Transacciones
 CREATE TABLE transactions (
     id TEXT PRIMARY KEY,
@@ -478,6 +491,9 @@ CREATE TABLE transactions (
     category TEXT NOT NULL,
     description TEXT,
     date TEXT NOT NULL,
+    account_id TEXT NOT NULL,
+    destination_account_id TEXT,
+    is_recurring BOOLEAN NOT NULL DEFAULT false,
     updated_at TEXT NOT NULL DEFAULT now()::text,
     is_deleted BOOLEAN NOT NULL DEFAULT false
 );
@@ -522,11 +538,13 @@ CREATE TABLE recurring_payments (
 );
 
 -- Políticas (RLS)
+ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE budgets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE savings_vaults ENABLE ROW LEVEL SECURITY;
 ALTER TABLE recurring_payments ENABLE ROW LEVEL SECURITY;
 
+CREATE POLICY "Allow all" ON accounts FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all" ON transactions FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all" ON budgets FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all" ON savings_vaults FOR ALL USING (true) WITH CHECK (true);

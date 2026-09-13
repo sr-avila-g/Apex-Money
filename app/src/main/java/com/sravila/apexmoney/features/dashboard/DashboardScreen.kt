@@ -226,6 +226,47 @@ fun DashboardScreen(
             }
         }
 
+        // 2.5. Cuentas (Billeteras y Bancos)
+        if (uiState.accounts.isNotEmpty()) {
+            item {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = "Mis Cuentas",
+                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                    androidx.compose.foundation.lazy.LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        contentPadding = PaddingValues(end = 16.dp) // extra padding so last item isn't cut off
+                    ) {
+                        items(uiState.accounts, key = { it.account.id }) { acc ->
+                            ObsidianCard(
+                                modifier = Modifier.width(160.dp),
+                                shape = RoundedCornerShape(12.dp),
+                                borderColor = Color(android.graphics.Color.parseColor(acc.account.colorHex)).copy(alpha = 0.3f)
+                            ) {
+                                Text(
+                                    text = acc.account.name,
+                                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                MoneyDisplay(
+                                    amount = acc.currentBalance,
+                                    currencySymbol = currencySymbol,
+                                    isDiscreetMode = isDiscreetMode,
+                                    fontSize = 18
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // 3. Resumen de Presupuestos & Tasa de Ahorro
         item {
             Row(
@@ -361,15 +402,16 @@ fun TransactionItemRow(
                         .size(40.dp)
                         .clip(CircleShape)
                         .background(
-                            if (isIncome) IncomeGreen.copy(alpha = 0.15f)
+                            if (transaction.type == "TRANSFER") MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                            else if (isIncome) IncomeGreen.copy(alpha = 0.15f)
                             else ExpenseRed.copy(alpha = 0.15f)
                         ),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = if (isIncome) Icons.Outlined.TrendingUp else Icons.Outlined.ReceiptLong,
+                        imageVector = if (transaction.type == "TRANSFER") Icons.Outlined.SwapHoriz else if (isIncome) Icons.Outlined.TrendingUp else Icons.Outlined.ReceiptLong,
                         contentDescription = null,
-                        tint = if (isIncome) IncomeGreen else ExpenseRed,
+                        tint = if (transaction.type == "TRANSFER") MaterialTheme.colorScheme.primary else if (isIncome) IncomeGreen else ExpenseRed,
                         modifier = Modifier.size(20.dp)
                     )
                 }

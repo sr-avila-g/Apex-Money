@@ -7,13 +7,14 @@ import java.util.UUID
 @Entity(tableName = "transactions")
 data class TransactionEntity(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val type: String, // "INCOME" or "EXPENSE"
+    val type: String, // "INCOME", "EXPENSE", or "TRANSFER"
     val amount: Double,
     val category: String,
     val date: String, // YYYY-MM-DD
     val time: String, // HH:mm
     val note: String? = null,
-    val account: String? = "Efectivo",
+    val accountId: String, // Required for all
+    val destinationAccountId: String? = null, // Only for TRANSFER
     val isRecurring: Boolean = false,
     val updatedAt: String = java.time.Instant.now().toString(),
     val isDeleted: Boolean = false
@@ -54,4 +55,21 @@ data class RecurringPaymentEntity(
     val isPaidThisMonth: Boolean = false,
     val updatedAt: String = java.time.Instant.now().toString(),
     val isDeleted: Boolean = false
+)
+
+@Entity(tableName = "accounts")
+data class AccountEntity(
+    @PrimaryKey val id: String = UUID.randomUUID().toString(),
+    val name: String,
+    val type: String = "CASH", // CASH, BANK_ACCOUNT, DIGITAL_WALLET
+    val initialBalance: Double = 0.0,
+    val colorHex: String = "#FF2A2A",
+    val iconName: String = "AccountBalanceWallet",
+    val updatedAt: String = java.time.Instant.now().toString(),
+    val isDeleted: Boolean = false
+)
+
+data class AccountWithBalance(
+    @androidx.room.Embedded val account: AccountEntity,
+    val currentBalance: Double
 )

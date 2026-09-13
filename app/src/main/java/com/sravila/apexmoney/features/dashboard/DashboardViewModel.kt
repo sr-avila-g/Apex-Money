@@ -9,6 +9,7 @@ import com.sravila.apexmoney.core.datastore.UserPreferences
 import com.sravila.apexmoney.core.datastore.UserPreferencesRepository
 import com.sravila.apexmoney.core.utils.FinancialHealthCalculator
 import com.sravila.apexmoney.core.utils.FinancialSummary
+import com.sravila.apexmoney.core.database.AccountWithBalance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,7 +19,8 @@ data class DashboardUiState(
     val recentTransactions: List<TransactionEntity> = emptyList(),
     val userPreferences: UserPreferences? = null,
     val isLoading: Boolean = false,
-    val budgetCategories: List<String> = emptyList()
+    val budgetCategories: List<String> = emptyList(),
+    val accounts: List<AccountWithBalance> = emptyList()
 )
 
 class DashboardViewModel(application: Application) : AndroidViewModel(application) {
@@ -39,16 +41,18 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
                 database.transactionDao().getAllTransactionsFlow(),
                 database.budgetDao().getAllBudgetsFlow(),
                 database.vaultDao().getAllVaultsFlow(),
+                database.accountDao().getAccountsWithBalanceFlow(),
                 prefsRepository.userPreferencesFlow
-            ) { transactions, budgets, vaults, prefs ->
+            ) { transactions, budgets, vaults, accounts, prefs ->
                 val summary = FinancialHealthCalculator.calculate(transactions, budgets, vaults)
                 val recent = transactions.take(10)
                 DashboardUiState(
-                    summary = summary,
+                    summary = summary.copy(netBalance = accounts.sumOf { it.currentBalance }), // Override balance with accounts
                     recentTransactions = recent,
                     userPreferences = prefs,
                     isLoading = false,
-                    budgetCategories = budgets.map { it.categoryName }
+                    budgetCategories = budgets.map { it.categoryName },
+                    accounts = accounts
                 )
             }.collect { state ->
                 _uiState.value = state
