@@ -83,16 +83,19 @@
                     </div>
                   </div>
                 </div>
-                <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-                  <div class="mini-card" style="flex: 1; padding: 8px;">
-                    <div class="mini-label">Presupuesto</div>
-                    <div style="font-size: 0.8rem; font-weight: 700;">67%</div>
-                    <div class="mini-progress"><div class="mini-progress__fill mini-progress__fill--red" style="--progress-width: 67%; "></div></div>
+                <!-- NEW: Cuentas Carousel Mockup -->
+                <div style="display: flex; gap: 6px; overflow-x: auto; margin-bottom: 8px; scrollbar-width: none; -ms-overflow-style: none;">
+                  <div class="mini-card" style="min-width: 95px; padding: 8px; border-left: 2px solid var(--income-green);">
+                    <div style="font-size: 0.55rem; font-weight: 700; opacity: 0.8;">Billetera</div>
+                    <div style="font-size: 0.8rem; font-weight: 800;">Bs 4,500</div>
                   </div>
-                  <div class="mini-card" style="flex: 1; padding: 8px;">
-                    <div class="mini-label">Ahorro</div>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--income-green);">Bs 4,500</div>
-                    <div class="mini-progress"><div class="mini-progress__fill mini-progress__fill--green" style="--progress-width: 54%; "></div></div>
+                  <div class="mini-card" style="min-width: 95px; padding: 8px; border-left: 2px solid var(--accent-blue);">
+                    <div style="font-size: 0.55rem; font-weight: 700; opacity: 0.8;">Banco BNB</div>
+                    <div style="font-size: 0.8rem; font-weight: 800;">Bs 9,200</div>
+                  </div>
+                  <div class="mini-card" style="min-width: 95px; padding: 8px; border-left: 2px solid var(--expense-red);">
+                    <div style="font-size: 0.55rem; font-weight: 700; opacity: 0.8;">Tarjeta Visa</div>
+                    <div style="font-size: 0.8rem; font-weight: 800; color: var(--expense-red);">-Bs 1,250</div>
                   </div>
                 </div>
                 <div class="mini-section-title">Transacciones Recientes</div>
@@ -345,16 +348,19 @@
                     <div style="flex: 1;"><div class="mini-label">Gastos</div><div class="mini-amount" style="color: var(--expense-red); font-size: 0.9rem;">-Bs 3,750</div></div>
                   </div>
                 </div>
-                <div style="display: flex; gap: 6px; margin: 10px 0;">
-                  <div class="mini-card" style="flex: 1; padding: 10px;">
-                    <div class="mini-label">Presupuesto</div>
-                    <div style="font-size: 0.9rem; font-weight: 800;">67%</div>
-                    <div class="mini-progress" style="margin-top: 6px;"><div class="mini-progress__fill mini-progress__fill--red" style="--progress-width: 67%; "></div></div>
+                <!-- NEW: Cuentas Carousel Mockup para Themes -->
+                <div style="display: flex; gap: 6px; overflow-x: auto; margin: 10px 0; scrollbar-width: none; -ms-overflow-style: none;">
+                  <div class="mini-card" style="min-width: 95px; padding: 8px; border-left: 2px solid var(--income-green);">
+                    <div style="font-size: 0.55rem; font-weight: 700; opacity: 0.8;">Billetera</div>
+                    <div style="font-size: 0.8rem; font-weight: 800;">Bs 4,500</div>
                   </div>
-                  <div class="mini-card" style="flex: 1; padding: 10px;">
-                    <div class="mini-label">Ahorro</div>
-                    <div style="font-size: 0.9rem; font-weight: 800; color: var(--income-green);">Bs 4,500</div>
-                    <div class="mini-progress" style="margin-top: 6px;"><div class="mini-progress__fill mini-progress__fill--green" style="--progress-width: 54%; "></div></div>
+                  <div class="mini-card" style="min-width: 95px; padding: 8px; border-left: 2px solid var(--accent-blue);">
+                    <div style="font-size: 0.55rem; font-weight: 700; opacity: 0.8;">Banco BNB</div>
+                    <div style="font-size: 0.8rem; font-weight: 800;">Bs 9,200</div>
+                  </div>
+                  <div class="mini-card" style="min-width: 95px; padding: 8px; border-left: 2px solid var(--expense-red);">
+                    <div style="font-size: 0.55rem; font-weight: 700; opacity: 0.8;">Tarjeta Visa</div>
+                    <div style="font-size: 0.8rem; font-weight: 800; color: var(--expense-red);">-Bs 1,250</div>
                   </div>
                 </div>
                 <div style="background: var(--accent-red); border-radius: 100px; padding: 10px; text-align: center; font-weight: 700; font-size: 0.7rem; margin: 10px 0; box-shadow: 0 0 12px var(--accent-red-glow); color: var(--bg-void);">
@@ -564,7 +570,7 @@ CREATE POLICY "Allow all" ON recurring_payments FOR ALL USING (true) WITH CHECK 
       <p class="subtitle" style="max-width: 480px; margin: 0 auto 40px;">Descarga Apex Money y transforma la manera en que gestionas tu dinero. Sin anuncios. Sin suscripciones. Sin compromisos.</p>
       <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
         <a href="https://github.com/sr-avila-g/Apex-Money/releases" class="btn btn-primary" style="padding: 16px 40px; font-size: 1rem;">
-          ⬇ Descargar APK v1.0
+          ⬇ Descargar APK v2.0
         </a>
         <a href="https://github.com/sr-avila-g/Apex-Money" class="btn btn-ghost" style="padding: 16px 40px; font-size: 1rem;">
           ◈ Repositorio en GitHub
