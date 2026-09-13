@@ -61,10 +61,11 @@ data class RecurringPaymentEntity(
 data class AccountEntity(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
     val name: String,
-    val type: String = "CASH", // CASH, BANK_ACCOUNT, DIGITAL_WALLET
+    val type: String = "CASH", // CASH, BANK_ACCOUNT, DIGITAL_WALLET, CREDIT_CARD
     val initialBalance: Double = 0.0,
     val colorHex: String = "#FF2A2A",
     val iconName: String = "AccountBalanceWallet",
+    val isCreditCard: Boolean = false,
     val updatedAt: String = java.time.Instant.now().toString(),
     val isDeleted: Boolean = false
 )

@@ -141,9 +141,11 @@ fun ApexMoneyMainContent(
     val recurringViewModel: RecurringViewModel = viewModel()
     val analyticsViewModel: AnalyticsViewModel = viewModel()
     val settingsViewModel: SettingsViewModel = viewModel()
+    val accountsViewModel: com.sravila.apexmoney.features.accounts.AccountsViewModel = viewModel()
 
     var showCreationMenu by remember { mutableStateOf(false) }
     var showQuickEntrySheet by remember { mutableStateOf(false) }
+    var showAddAccountSheet by remember { mutableStateOf(false) }
     var showAddBudgetDialog by remember { mutableStateOf(false) }
     var showAddVaultDialog by remember { mutableStateOf(false) }
     var showAddRecurringDialog by remember { mutableStateOf(false) }
@@ -203,7 +205,8 @@ fun ApexMoneyMainContent(
                     onOpenQuickEntry = { showQuickEntrySheet = true },
                     onNavigateToBudgets = { navController.navigate(NavItem.Budgets.route) },
                     onNavigateToVaults = { navController.navigate(NavItem.Vaults.route) },
-                    onNavigateToSettings = { navController.navigate(NavItem.Settings.route) }
+                    onNavigateToSettings = { navController.navigate(NavItem.Settings.route) },
+                    onNavigateToAccountDetail = { accountId -> navController.navigate(NavItem.AccountDetail.createRoute(accountId)) }
                 )
             }
 
@@ -232,6 +235,19 @@ fun ApexMoneyMainContent(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
+            
+            composable(NavItem.AccountDetail.route) { backStackEntry ->
+                val accountId = backStackEntry.arguments?.getString("accountId") ?: return@composable
+                com.sravila.apexmoney.features.accounts.AccountDetailScreen(
+                    accountId = accountId,
+                    viewModel = accountsViewModel,
+                    currencySymbol = userCurrencySymbol,
+                    onNavigateBack = { navController.popBackStack() },
+                    onEditAccount = { account ->
+                        // TODO: Implement edit
+                    }
+                )
+            }
         }
     }
 
@@ -254,7 +270,8 @@ fun ApexMoneyMainContent(
             onSelectTransaction = { showCreationMenu = false; showQuickEntrySheet = true },
             onSelectBudget = { showCreationMenu = false; showAddBudgetDialog = true },
             onSelectVault = { showCreationMenu = false; showAddVaultDialog = true },
-            onSelectRecurring = { showCreationMenu = false; showAddRecurringDialog = true }
+            onSelectRecurring = { showCreationMenu = false; showAddRecurringDialog = true },
+            onSelectAccount = { showCreationMenu = false; showAddAccountSheet = true }
         )
     }
 
@@ -288,6 +305,16 @@ fun ApexMoneyMainContent(
                 showAddRecurringDialog = false
             },
             currencySymbol = userCurrencySymbol
+        )
+    }
+    
+    if (showAddAccountSheet) {
+        com.sravila.apexmoney.features.accounts.AddAccountBottomSheet(
+            onDismissRequest = { showAddAccountSheet = false },
+            onSave = { name, type, initial, color, isCreditCard ->
+                accountsViewModel.addAccount(name, type, initial, color, isCreditCard)
+                showAddAccountSheet = false
+            }
         )
     }
 }

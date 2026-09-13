@@ -1,6 +1,7 @@
 package com.sravila.apexmoney.features.vaults
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -275,6 +276,8 @@ fun VaultItemRow(
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddVaultDialog(
     onDismiss: () -> Unit,
@@ -284,63 +287,134 @@ fun AddVaultDialog(
     var vaultName by remember { mutableStateOf("") }
     var targetText by remember { mutableStateOf("") }
     var initialText by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf("General") }
+    val vaultEmojis = listOf("🏠", "🚗", "✈️", "💎", "📚", "💪", "🎮", "🌴", "💻", "🎓")
+    var selectedEmoji by remember { mutableStateOf("💎") }
 
-    AlertDialog(
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = { Text("Nueva Bóveda de Ahorro", fontWeight = FontWeight.Bold) },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                OutlinedTextField(
-                    value = vaultName,
-                    onValueChange = { vaultName = it },
-                    label = { Text("Nombre de la Meta (ej. Nuevo Auto)") },
-                    singleLine = true
+        containerColor = MaterialTheme.colorScheme.surface,
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 40.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Nueva Bóveda de Ahorro",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                OutlinedTextField(
-                    value = targetText,
-                    onValueChange = { input ->
-                        if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
-                            targetText = input
-                        }
-                    },
-                    label = { Text("Monto Objetivo ($currencySymbol)") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    singleLine = true
-                )
-                OutlinedTextField(
-                    value = initialText,
-                    onValueChange = { input ->
-                        if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
-                            initialText = input
-                        }
-                    },
-                    label = { Text("Aporte Inicial ($currencySymbol)") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    singleLine = true
-                )
+                IconButton(onClick = onDismiss) {
+                    Icon(Icons.Outlined.Close, contentDescription = "Cerrar")
+                }
             }
-        },
-        confirmButton = {
-            Button(
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Emoji selector
+            Text(
+                text = "Ícono de la Meta",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            androidx.compose.foundation.lazy.LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(vaultEmojis) { emoji ->
+                    val isSelected = emoji == selectedEmoji
+                    Box(
+                        modifier = Modifier
+                            .size(44.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant)
+                            .clickable { selectedEmoji = emoji },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = emoji, style = MaterialTheme.typography.titleMedium)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = vaultName,
+                onValueChange = { vaultName = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Nombre de la Meta (ej. Nuevo Auto)") },
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = IncomeGreen,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                )
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = targetText,
+                onValueChange = { input ->
+                    if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) targetText = input
+                },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Monto Objetivo ($currencySymbol)") },
+                placeholder = { Text("0.00") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                textStyle = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = IncomeGreen,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = IncomeGreen
+                )
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = initialText,
+                onValueChange = { input ->
+                    if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) initialText = input
+                },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Aporte Inicial ($currencySymbol) — Opcional") },
+                placeholder = { Text("0.00") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                )
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            ApexButton(
+                text = "CREAR BÓVEDA",
+                icon = Icons.Outlined.Lock,
                 onClick = {
                     val target = targetText.toDoubleOrNull() ?: 0.0
                     val initial = initialText.toDoubleOrNull() ?: 0.0
                     if (vaultName.isNotBlank() && target > 0) {
-                        onConfirm(vaultName.trim(), target, initial, category)
+                        onConfirm(vaultName.trim(), target, initial, selectedEmoji)
                     }
                 },
+                modifier = Modifier.fillMaxWidth(),
                 enabled = vaultName.isNotBlank() && (targetText.toDoubleOrNull() ?: 0.0) > 0
-            ) {
-                Text("Crear Bóveda")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancelar") }
+            )
         }
-    )
+    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DepositDialog(
     vault: SavingsVaultEntity,
@@ -350,48 +424,66 @@ fun DepositDialog(
 ) {
     var amountText by remember { mutableStateOf("") }
 
-    AlertDialog(
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = { Text("Aportar a ${vault.vaultName}", fontWeight = FontWeight.Bold) },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        containerColor = MaterialTheme.colorScheme.surface,
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 40.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = "Monto acumulado actual: ${CurrencyFormatter.format(vault.currentAmount, currencySymbol)}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = "Aportar a ${vault.vaultName}",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                OutlinedTextField(
-                    value = amountText,
-                    onValueChange = { input ->
-                        if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
-                            amountText = input
-                        }
-                    },
-                    label = { Text("Monto del Aporte ($currencySymbol)") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    singleLine = true
-                )
+                IconButton(onClick = onDismiss) {
+                    Icon(Icons.Outlined.Close, contentDescription = "Cerrar")
+                }
             }
-        },
-        confirmButton = {
-            Button(
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Acumulado actual: ${CurrencyFormatter.format(vault.currentAmount, currencySymbol)}",
+                style = MaterialTheme.typography.bodyMedium,
+                color = IncomeGreen
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = amountText,
+                onValueChange = { input ->
+                    if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) amountText = input
+                },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Monto del Aporte ($currencySymbol)") },
+                placeholder = { Text("0.00") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                textStyle = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold, color = IncomeGreen),
+                singleLine = true
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            ApexButton(
+                text = "CONFIRMAR APORTE",
+                icon = Icons.Outlined.AddCircleOutline,
                 onClick = {
                     val amount = amountText.toDoubleOrNull() ?: 0.0
-                    if (amount > 0) {
-                        onConfirm(amount)
-                    }
+                    if (amount > 0) onConfirm(amount)
                 },
+                modifier = Modifier.fillMaxWidth(),
                 enabled = (amountText.toDoubleOrNull() ?: 0.0) > 0
-            ) {
-                Text("Confirmar Aporte")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancelar") }
+            )
         }
-    )
+    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WithdrawDialog(
     vault: SavingsVaultEntity,
@@ -401,44 +493,63 @@ fun WithdrawDialog(
 ) {
     var amountText by remember { mutableStateOf("") }
 
-    AlertDialog(
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = { Text("Retirar de ${vault.vaultName}", fontWeight = FontWeight.Bold) },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        containerColor = MaterialTheme.colorScheme.surface,
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 40.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = "Monto acumulado actual: ${CurrencyFormatter.format(vault.currentAmount, currencySymbol)}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = "Retirar de ${vault.vaultName}",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                OutlinedTextField(
-                    value = amountText,
-                    onValueChange = { input ->
-                        if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
-                            amountText = input
-                        }
-                    },
-                    label = { Text("Monto a retirar ($currencySymbol)") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    singleLine = true
-                )
+                IconButton(onClick = onDismiss) {
+                    Icon(Icons.Outlined.Close, contentDescription = "Cerrar")
+                }
             }
-        },
-        confirmButton = {
-            Button(
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Acumulado actual: ${CurrencyFormatter.format(vault.currentAmount, currencySymbol)}",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = amountText,
+                onValueChange = { input ->
+                    if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) amountText = input
+                },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Monto a retirar ($currencySymbol)") },
+                placeholder = { Text("0.00") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                textStyle = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                singleLine = true
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            ApexButton(
+                text = "CONFIRMAR RETIRO",
+                icon = Icons.Outlined.RemoveCircleOutline,
                 onClick = {
                     val amount = amountText.toDoubleOrNull() ?: 0.0
-                    if (amount > 0) {
-                        onConfirm(amount)
-                    }
+                    if (amount > 0) onConfirm(amount)
                 },
+                modifier = Modifier.fillMaxWidth(),
                 enabled = (amountText.toDoubleOrNull() ?: 0.0) > 0
-            ) {
-                Text("Confirmar Retiro")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancelar") }
+            )
         }
-    )
+    }
 }
+
+

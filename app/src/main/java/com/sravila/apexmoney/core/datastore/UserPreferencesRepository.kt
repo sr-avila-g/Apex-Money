@@ -27,7 +27,12 @@ data class UserPreferences(
     val lastSyncTimestamp: String,
     val isCloudSyncEnabled: Boolean,
     val customSupabaseUrl: String,
-    val customSupabaseKey: String
+    val customSupabaseKey: String,
+    // Nuevas preferencias v2.0
+    val showAccountsCarousel: Boolean,
+    val isCreditCardSupportEnabled: Boolean,
+    val showNetBalanceWarning: Boolean,
+    val accountColorBadges: Boolean
 )
 
 class UserPreferencesRepository(private val context: Context) {
@@ -46,6 +51,11 @@ class UserPreferencesRepository(private val context: Context) {
         val CLOUD_SYNC_ENABLED = booleanPreferencesKey("cloud_sync_enabled")
         val CUSTOM_SUPABASE_URL = stringPreferencesKey("custom_supabase_url")
         val CUSTOM_SUPABASE_KEY = stringPreferencesKey("custom_supabase_key")
+        // v2.0
+        val SHOW_ACCOUNTS_CAROUSEL = booleanPreferencesKey("show_accounts_carousel")
+        val CREDIT_CARD_SUPPORT = booleanPreferencesKey("credit_card_support")
+        val SHOW_NET_BALANCE_WARNING = booleanPreferencesKey("show_net_balance_warning")
+        val ACCOUNT_COLOR_BADGES = booleanPreferencesKey("account_color_badges")
     }
 
     val userPreferencesFlow: Flow<UserPreferences> = context.dataStore.data
@@ -69,7 +79,11 @@ class UserPreferencesRepository(private val context: Context) {
                 lastSyncTimestamp = preferences[PreferencesKeys.LAST_SYNC] ?: "1970-01-01T00:00:00Z",
                 isCloudSyncEnabled = preferences[PreferencesKeys.CLOUD_SYNC_ENABLED] ?: false,
                 customSupabaseUrl = preferences[PreferencesKeys.CUSTOM_SUPABASE_URL] ?: "",
-                customSupabaseKey = preferences[PreferencesKeys.CUSTOM_SUPABASE_KEY] ?: ""
+                customSupabaseKey = preferences[PreferencesKeys.CUSTOM_SUPABASE_KEY] ?: "",
+                showAccountsCarousel = preferences[PreferencesKeys.SHOW_ACCOUNTS_CAROUSEL] ?: true,
+                isCreditCardSupportEnabled = preferences[PreferencesKeys.CREDIT_CARD_SUPPORT] ?: true,
+                showNetBalanceWarning = preferences[PreferencesKeys.SHOW_NET_BALANCE_WARNING] ?: true,
+                accountColorBadges = preferences[PreferencesKeys.ACCOUNT_COLOR_BADGES] ?: true
             )
         }
 
@@ -96,6 +110,10 @@ class UserPreferencesRepository(private val context: Context) {
                 "strict_budget" -> preferences[PreferencesKeys.STRICT_BUDGET] = value
                 "auto_reversal" -> preferences[PreferencesKeys.AUTO_REVERSAL] = value
                 "cloud_sync" -> preferences[PreferencesKeys.CLOUD_SYNC_ENABLED] = value
+                "show_accounts_carousel" -> preferences[PreferencesKeys.SHOW_ACCOUNTS_CAROUSEL] = value
+                "credit_card_support" -> preferences[PreferencesKeys.CREDIT_CARD_SUPPORT] = value
+                "show_net_balance_warning" -> preferences[PreferencesKeys.SHOW_NET_BALANCE_WARNING] = value
+                "account_color_badges" -> preferences[PreferencesKeys.ACCOUNT_COLOR_BADGES] = value
             }
         }
     }

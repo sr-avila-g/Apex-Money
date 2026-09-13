@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBalance
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.CreditCard
 import androidx.compose.material.icons.outlined.PieChart
 import androidx.compose.material.icons.outlined.Repeat
 import androidx.compose.material3.*
@@ -26,7 +27,8 @@ fun CreationMenuBottomSheet(
     onSelectTransaction: () -> Unit,
     onSelectBudget: () -> Unit,
     onSelectVault: () -> Unit,
-    onSelectRecurring: () -> Unit
+    onSelectRecurring: () -> Unit,
+    onSelectAccount: () -> Unit
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
@@ -50,6 +52,13 @@ fun CreationMenuBottomSheet(
                 title = "Ingreso o Gasto",
                 subtitle = "Registra una transacción rápida",
                 onClick = onSelectTransaction
+            )
+            
+            CreationMenuItem(
+                icon = Icons.Outlined.CreditCard,
+                title = "Nueva Cuenta",
+                subtitle = "Agrega una Billetera o Tarjeta de Crédito",
+                onClick = onSelectAccount
             )
             
             CreationMenuItem(

@@ -175,6 +175,44 @@ fun SettingsScreen(
                 }
             }
 
+            // 2b. Cuentas y Patrimonio (nueva sección v2.0)
+            item {
+                SectionHeader(title = "Cuentas y Patrimonio")
+                ObsidianCard(modifier = Modifier.fillMaxWidth()) {
+                    SettingToggleRow(
+                        title = "Carrusel de Cuentas",
+                        subtitle = "Muestra tarjetas de cuentas en el Dashboard",
+                        icon = Icons.Outlined.CreditCard,
+                        isChecked = userPrefs?.showAccountsCarousel ?: true,
+                        onCheckedChange = { viewModel.togglePreference("show_accounts_carousel", userPrefs?.showAccountsCarousel ?: true) }
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+                    SettingToggleRow(
+                        title = "Soporte Tarjeta de Crédito",
+                        subtitle = "Habilita el tipo TC al crear cuentas",
+                        icon = Icons.Outlined.AccountBalance,
+                        isChecked = userPrefs?.isCreditCardSupportEnabled ?: true,
+                        onCheckedChange = { viewModel.togglePreference("credit_card_support", userPrefs?.isCreditCardSupportEnabled ?: true) }
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+                    SettingToggleRow(
+                        title = "Aviso Multi-Moneda",
+                        subtitle = "Alerta si mezclas USD y moneda local",
+                        icon = Icons.Outlined.Language,
+                        isChecked = userPrefs?.showNetBalanceWarning ?: true,
+                        onCheckedChange = { viewModel.togglePreference("show_net_balance_warning", userPrefs?.showNetBalanceWarning ?: true) }
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+                    SettingToggleRow(
+                        title = "Colores de Etiqueta",
+                        subtitle = "Colorea las tarjetas del carrusel",
+                        icon = Icons.Outlined.Palette,
+                        isChecked = userPrefs?.accountColorBadges ?: true,
+                        onCheckedChange = { viewModel.togglePreference("account_color_badges", userPrefs?.accountColorBadges ?: true) }
+                    )
+                }
+            }
+
             // 3. Experiencia y Temas
             item {
                 SectionHeader(title = "Experiencia Visual")
@@ -460,40 +498,73 @@ fun SettingsScreen(
         var inputUrl by remember { mutableStateOf(userPrefs?.customSupabaseUrl ?: "") }
         var inputKey by remember { mutableStateOf(userPrefs?.customSupabaseKey ?: "") }
 
-        AlertDialog(
+        ModalBottomSheet(
             onDismissRequest = { showSupabaseDialog = false },
-            title = { Text("Configurar Supabase", fontWeight = FontWeight.Bold) },
-            text = {
-                Column {
-                    Text("Ingresa las credenciales de tu proyecto Supabase personal. Si las dejas en blanco, la sincronización usará las credenciales por defecto (si existen).", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    OutlinedTextField(
-                        value = inputUrl,
-                        onValueChange = { inputUrl = it },
-                        label = { Text("Supabase URL") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
+            containerColor = MaterialTheme.colorScheme.surface,
+            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 40.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Configurar Supabase",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = inputKey,
-                        onValueChange = { inputKey = it },
-                        label = { Text("Anon Key") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    IconButton(onClick = { showSupabaseDialog = false }) {
+                        Icon(Icons.Outlined.Close, contentDescription = "Cerrar")
+                    }
                 }
-            },
-            confirmButton = {
-                TextButton(onClick = {
-                    viewModel.updateSupabaseCredentials(inputUrl.trim(), inputKey.trim())
-                    showSupabaseDialog = false
-                }) { Text("Guardar") }
-            },
-            dismissButton = {
-                TextButton(onClick = { showSupabaseDialog = false }) { Text("Cancelar") }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Ingresa las credenciales de tu proyecto Supabase. Si las dejas en blanco, se usarán las credenciales por defecto.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                OutlinedTextField(
+                    value = inputUrl,
+                    onValueChange = { inputUrl = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Supabase URL") },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                    )
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = inputKey,
+                    onValueChange = { inputKey = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Anon Key") },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                    )
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                com.sravila.apexmoney.core.ui.ApexButton(
+                    text = "GUARDAR CREDENCIALES",
+                    icon = Icons.Outlined.Dns,
+                    onClick = {
+                        viewModel.updateSupabaseCredentials(inputUrl.trim(), inputKey.trim())
+                        showSupabaseDialog = false
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
-        )
+        }
     }
 }
 

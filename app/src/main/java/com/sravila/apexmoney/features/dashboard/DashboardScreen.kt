@@ -36,6 +36,7 @@ fun DashboardScreen(
     onNavigateToBudgets: () -> Unit,
     onNavigateToVaults: () -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToAccountDetail: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -227,7 +228,7 @@ fun DashboardScreen(
         }
 
         // 2.5. Cuentas (Billeteras y Bancos)
-        if (uiState.accounts.isNotEmpty()) {
+        if (uiState.userPreferences?.showAccountsCarousel != false) {
             item {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Text(
@@ -236,30 +237,50 @@ fun DashboardScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    androidx.compose.foundation.lazy.LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        contentPadding = PaddingValues(end = 16.dp) // extra padding so last item isn't cut off
-                    ) {
-                        items(uiState.accounts, key = { it.account.id }) { acc ->
-                            ObsidianCard(
-                                modifier = Modifier.width(160.dp),
-                                shape = RoundedCornerShape(12.dp),
-                                borderColor = Color(android.graphics.Color.parseColor(acc.account.colorHex)).copy(alpha = 0.3f)
-                            ) {
-                                Text(
-                                    text = acc.account.name,
-                                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                Spacer(modifier = Modifier.height(4.dp))
-                                MoneyDisplay(
-                                    amount = acc.currentBalance,
-                                    currencySymbol = currencySymbol,
-                                    isDiscreetMode = isDiscreetMode,
-                                    fontSize = 18
-                                )
+                    
+                    if (uiState.accounts.isEmpty()) {
+                        ObsidianCard(modifier = Modifier.fillMaxWidth()) {
+                            Text(
+                                text = "No hay cuentas agregadas. Toca + para crear tu primera billetera o cuenta.",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(8.dp)
+                            )
+                        }
+                    } else {
+                        androidx.compose.foundation.lazy.LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            contentPadding = PaddingValues(end = 16.dp) // extra padding so last item isn't cut off
+                        ) {
+                            items(uiState.accounts, key = { it.account.id }) { acc ->
+                                val borderColor = if (uiState.userPreferences?.accountColorBadges != false) {
+                                    Color(android.graphics.Color.parseColor(acc.account.colorHex)).copy(alpha = 0.3f)
+                                } else {
+                                    MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
+                                }
+                                
+                                ObsidianCard(
+                                    modifier = Modifier
+                                        .width(160.dp)
+                                        .bounceClick { onNavigateToAccountDetail(acc.account.id) },
+                                    shape = RoundedCornerShape(12.dp),
+                                    borderColor = borderColor
+                                ) {
+                                    Text(
+                                        text = acc.account.name,
+                                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    MoneyDisplay(
+                                        amount = acc.currentBalance,
+                                        currencySymbol = currencySymbol,
+                                        isDiscreetMode = isDiscreetMode,
+                                        fontSize = 18
+                                    )
+                                }
                             }
                         }
                     }

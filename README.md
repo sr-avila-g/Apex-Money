@@ -117,6 +117,28 @@ C O N T R O L   A B S O L U T O   S I N   R U I D O   V I S U A L
 
 </td>
 </tr>
+<tr>
+<td>
+
+### 💳 Multi-Cuentas
+> Flexibilidad financiera total
+
+- Gestión de Bancos, Billeteras y Efectivo
+- Soporte para Tarjetas de Crédito con cálculo de deuda
+- Transferencias entre cuentas con balance automático
+
+</td>
+<td>
+
+### ☁️ Sincronización BYOB
+> Trae Tu Propia Nube (Local-first)
+
+- Supabase PostgreSQL como respaldo silencioso
+- Modo offline garantizado por Room
+- Resolución de conflictos priorizando lo más reciente
+
+</td>
+</tr>
 </table>
 
 <br>
@@ -151,6 +173,7 @@ com.sravila.apexmoney/
 ├─ features/                         ── Módulos ──
 │   ├─ dashboard/                    Pantalla principal + ViewModel
 │   ├─ analytics/                    Gráficos y métricas + ViewModel
+│   ├─ accounts/                     Gestión de Cuentas, Bancos y TC + ViewModel
 │   ├─ budgets/                      Presupuestos + ViewModel
 │   ├─ vaults/                       Bóvedas de ahorro + ViewModel
 │   ├─ recurring/                    Pagos recurrentes + Worker
@@ -337,6 +360,7 @@ CREATE TABLE accounts (
     initial_balance REAL NOT NULL DEFAULT 0,
     color_hex TEXT NOT NULL,
     icon_name TEXT NOT NULL,
+    is_credit_card BOOLEAN NOT NULL DEFAULT false,
     updated_at TEXT NOT NULL DEFAULT now()::text,
     is_deleted BOOLEAN NOT NULL DEFAULT false
 );

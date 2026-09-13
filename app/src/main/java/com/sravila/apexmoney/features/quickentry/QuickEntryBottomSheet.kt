@@ -28,6 +28,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sravila.apexmoney.core.database.TransactionEntity
+import com.sravila.apexmoney.core.theme.ExpenseRed
+import com.sravila.apexmoney.core.theme.IncomeGreen
+import com.sravila.apexmoney.core.theme.WarningYellow
 import com.sravila.apexmoney.core.ui.ApexButton
 import com.sravila.apexmoney.core.ui.SegmentedControl
 import com.sravila.apexmoney.core.database.AccountEntity
@@ -151,10 +154,10 @@ fun QuickEntryBottomSheet(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 textStyle = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = if (isExpense) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+                    color = if (isExpense) ExpenseRed else if (isIncome) IncomeGreen else WarningYellow
                 ),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedBorderColor = if (isExpense) ExpenseRed else if (isIncome) IncomeGreen else WarningYellow,
                     unfocusedBorderColor = MaterialTheme.colorScheme.outline
                 )
             )
@@ -200,25 +203,43 @@ fun QuickEntryBottomSheet(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(6.dp))
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(accounts) { acc ->
-                    val isSelected = acc == selectedAccount
-                    val chipBg = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceVariant
-                    val chipText = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+            
+            if (accounts.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Debes crear una cuenta primero",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            } else {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    items(accounts) { acc ->
+                        val isSelected = acc == selectedAccount
+                        val chipBg = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceVariant
+                        val chipText = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
 
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(chipBg)
-                            .border(1.dp, if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
-                            .clickable { selectedAccount = acc }
-                            .padding(horizontal = 14.dp, vertical = 8.dp)
-                    ) {
-                        Text(
-                            text = acc.name,
-                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal),
-                            color = chipText
-                        )
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(chipBg)
+                                .border(1.dp, if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
+                                .clickable { selectedAccount = acc }
+                                .padding(horizontal = 14.dp, vertical = 8.dp)
+                        ) {
+                            Text(
+                                text = acc.name,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal),
+                                color = chipText
+                            )
+                        }
                     }
                 }
             }
@@ -231,25 +252,43 @@ fun QuickEntryBottomSheet(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    items(accounts.filter { it != selectedAccount }) { acc ->
-                        val isSelected = acc == destinationAccount
-                        val chipBg = if (isSelected) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surfaceVariant
-                        val chipText = if (isSelected) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(chipBg)
-                                .border(1.dp, if (isSelected) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
-                                .clickable { destinationAccount = acc }
-                                .padding(horizontal = 14.dp, vertical = 8.dp)
-                        ) {
-                            Text(
-                                text = acc.name,
-                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal),
-                                color = chipText
-                            )
+                
+                if (accounts.size < 2) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Necesitas al menos 2 cuentas",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                } else {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        items(accounts.filter { it != selectedAccount }) { acc ->
+                            val isSelected = acc == destinationAccount
+                            val chipBg = if (isSelected) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surfaceVariant
+                            val chipText = if (isSelected) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+    
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(chipBg)
+                                    .border(1.dp, if (isSelected) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
+                                    .clickable { destinationAccount = acc }
+                                    .padding(horizontal = 14.dp, vertical = 8.dp)
+                            ) {
+                                Text(
+                                    text = acc.name,
+                                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal),
+                                    color = chipText
+                                )
+                            }
                         }
                     }
                 }

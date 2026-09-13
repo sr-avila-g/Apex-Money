@@ -182,6 +182,9 @@ interface AccountDao {
     @Query("SELECT * FROM accounts WHERE id IN (:ids)")
     suspend fun getAccountsByIds(ids: List<String>): List<AccountEntity>
 
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (accountId = :accountId OR destinationAccountId = :accountId) ORDER BY date DESC, time DESC")
+    fun getTransactionsByAccountFlow(accountId: String): Flow<List<TransactionEntity>>
+
     @Update
     suspend fun updateAccount(account: AccountEntity)
 

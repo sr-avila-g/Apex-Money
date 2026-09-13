@@ -231,6 +231,8 @@ fun BudgetItemRow(
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBudgetDialog(
     onDismiss: () -> Unit,
@@ -240,45 +242,84 @@ fun AddBudgetDialog(
     var categoryName by remember { mutableStateOf("") }
     var limitText by remember { mutableStateOf("") }
 
-    AlertDialog(
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = { Text("Nuevo Presupuesto", fontWeight = FontWeight.Bold) },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                OutlinedTextField(
-                    value = categoryName,
-                    onValueChange = { categoryName = it },
-                    label = { Text("Categoría (ej. Ropa, Juegos)") },
-                    singleLine = true
+        containerColor = MaterialTheme.colorScheme.surface,
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 40.dp)
+        ) {
+            // Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Nuevo Presupuesto",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                OutlinedTextField(
-                    value = limitText,
-                    onValueChange = { input ->
-                        if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
-                            limitText = input
-                        }
-                    },
-                    label = { Text("Límite Mensual ($currencySymbol)") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    singleLine = true
-                )
+                IconButton(onClick = onDismiss) {
+                    Icon(Icons.Outlined.Close, contentDescription = "Cerrar")
+                }
             }
-        },
-        confirmButton = {
-            Button(
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            OutlinedTextField(
+                value = categoryName,
+                onValueChange = { categoryName = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Categoría (ej. Ropa, Juegos, Salud)") },
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = ExpenseRed,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = limitText,
+                onValueChange = { input ->
+                    if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
+                        limitText = input
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Límite Mensual ($currencySymbol)") },
+                placeholder = { Text("0.00") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                textStyle = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = ExpenseRed,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = ExpenseRed
+                )
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            ApexButton(
+                text = "CREAR PRESUPUESTO",
+                icon = Icons.Outlined.PieChart,
                 onClick = {
                     val limit = limitText.toDoubleOrNull() ?: 0.0
                     if (categoryName.isNotBlank() && limit > 0) {
                         onConfirm(categoryName.trim(), limit)
                     }
                 },
+                modifier = Modifier.fillMaxWidth(),
                 enabled = categoryName.isNotBlank() && (limitText.toDoubleOrNull() ?: 0.0) > 0
-            ) {
-                Text("Guardar")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancelar") }
+            )
         }
-    )
+    }
 }
+

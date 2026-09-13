@@ -32,6 +32,9 @@ sealed class NavItem(
     object Analytics : NavItem("analytics", "Informes", Icons.Outlined.Insights, Icons.Filled.Insights)
     object Recurring : NavItem("recurring", "Radar", Icons.Outlined.Repeat, Icons.Filled.Repeat)
     object Settings : NavItem("settings", "Ajustes", Icons.Outlined.Settings, Icons.Filled.Settings)
+    object AccountDetail : NavItem("account_detail/{accountId}", "Cuenta", Icons.Outlined.AccountBalanceWallet, Icons.Filled.AccountBalanceWallet) {
+        fun createRoute(accountId: String) = "account_detail/$accountId"
+    }
 }
 
 @Composable

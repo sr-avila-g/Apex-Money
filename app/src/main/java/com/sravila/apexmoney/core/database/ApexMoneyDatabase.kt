@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter
         RecurringPaymentEntity::class,
         AccountEntity::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class ApexMoneyDatabase : RoomDatabase() {
@@ -91,9 +91,9 @@ abstract class ApexMoneyDatabase : RoomDatabase() {
                 recurring.forEach { db.recurringDao().insertRecurring(it) }
 
                 // Cuentas iniciales predeterminadas
-                val mainAccount = AccountEntity(name = "Cuenta Principal (Banco)", type = "BANK_ACCOUNT", initialBalance = 1500.0, colorHex = "#3B82F6", iconName = "AccountBalance")
-                val wallet = AccountEntity(name = "Billetera Física", type = "CASH", initialBalance = 200.0, colorHex = "#4CAF50", iconName = "AccountBalanceWallet")
-                val creditCard = AccountEntity(name = "Tarjeta de Crédito", type = "BANK_ACCOUNT", initialBalance = 0.0, colorHex = "#FF2A2A", iconName = "CreditCard")
+                val mainAccount = AccountEntity(name = "Cuenta Principal (Banco)", type = "BANK_ACCOUNT", initialBalance = 1500.0, colorHex = "#3B82F6", iconName = "AccountBalance", isCreditCard = false)
+                val wallet = AccountEntity(name = "Billetera Física", type = "CASH", initialBalance = 200.0, colorHex = "#4CAF50", iconName = "AccountBalanceWallet", isCreditCard = false)
+                val creditCard = AccountEntity(name = "Tarjeta de Crédito", type = "CREDIT_CARD", initialBalance = 0.0, colorHex = "#FF2A2A", iconName = "CreditCard", isCreditCard = true)
                 
                 db.accountDao().insertAccount(mainAccount)
                 db.accountDao().insertAccount(wallet)

@@ -219,6 +219,8 @@ fun RecurringItemRow(
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddRecurringDialog(
     onDismiss: () -> Unit,
@@ -228,53 +230,152 @@ fun AddRecurringDialog(
     var title by remember { mutableStateOf("") }
     var amountText by remember { mutableStateOf("") }
     var dueDate by remember { mutableStateOf("Día 15 de cada mes") }
-    var category by remember { mutableStateOf("Suscripciones") }
+    var selectedFrequency by remember { mutableStateOf("MENSUAL") }
+    var selectedCategory by remember { mutableStateOf("Suscripciones") }
 
-    AlertDialog(
+    val frequencies = listOf("SEMANAL", "MENSUAL", "ANUAL")
+    val categories = listOf("Suscripciones", "Servicios", "Salud", "Vivienda", "Transporte", "Educación")
+
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = { Text("Nueva Suscripción / Pago Fijo", fontWeight = FontWeight.Bold) },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text("Nombre del Pago (ej. Netflix, Alquiler)") },
-                    singleLine = true
+        containerColor = MaterialTheme.colorScheme.surface,
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 40.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Nueva Suscripción / Pago Fijo",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                OutlinedTextField(
-                    value = amountText,
-                    onValueChange = { input ->
-                        if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
-                            amountText = input
-                        }
-                    },
-                    label = { Text("Monto Mensual ($currencySymbol)") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    singleLine = true
-                )
-                OutlinedTextField(
-                    value = dueDate,
-                    onValueChange = { dueDate = it },
-                    label = { Text("Fecha o Día de Cobro") },
-                    singleLine = true
-                )
+                IconButton(onClick = onDismiss) {
+                    Icon(Icons.Outlined.Close, contentDescription = "Cerrar")
+                }
             }
-        },
-        confirmButton = {
-            Button(
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Frecuencia chips
+            Text(
+                text = "Frecuencia",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                frequencies.forEach { freq ->
+                    val isSelected = selectedFrequency == freq
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(100))
+                            .background(if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant)
+                            .clickable { selectedFrequency = freq }
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = freq,
+                            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                            color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Nombre del Pago (ej. Netflix, Alquiler)") },
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                )
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = amountText,
+                onValueChange = { input ->
+                    if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
+                        amountText = input
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Monto ($currencySymbol)") },
+                placeholder = { Text("0.00") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                textStyle = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Categoría chips
+            Text(
+                text = "Categoría",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            @OptIn(ExperimentalLayoutApi::class)
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                categories.forEach { cat ->
+                    val isSelected = selectedCategory == cat
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(100))
+                            .background(if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant)
+                            .clickable { selectedCategory = cat }
+                            .padding(horizontal = 14.dp, vertical = 7.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = cat,
+                            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                            color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            ApexButton(
+                text = "GUARDAR PAGO",
+                icon = Icons.Outlined.Autorenew,
                 onClick = {
                     val amount = amountText.toDoubleOrNull() ?: 0.0
                     if (title.isNotBlank() && amount > 0) {
-                        onConfirm(title.trim(), amount, dueDate.trim(), category)
+                        onConfirm(title.trim(), amount, dueDate.trim(), selectedCategory)
                     }
                 },
+                modifier = Modifier.fillMaxWidth(),
                 enabled = title.isNotBlank() && (amountText.toDoubleOrNull() ?: 0.0) > 0
-            ) {
-                Text("Guardar Pago")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancelar") }
+            )
         }
-    )
+    }
 }
+
+
